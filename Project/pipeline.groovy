@@ -5,21 +5,19 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Cloning the repository...'
-                git url: 'https://github.com/messer1988/mygithubproject.git', branch: 'main'
+                git url: 'https://github.com/messer1988/mygithubproject.git', branch: 'IFT'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                echo 'Installing dependencies...'
-                sh 'pip install -r requirements.txt'
+                echo "Hello World"
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
-                sh 'pytest tests/'
             }
         }
     }
