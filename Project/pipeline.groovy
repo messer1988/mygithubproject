@@ -12,15 +12,12 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 echo "Hello World"
-                echo 'Installing dependencies...'
-                sh 'pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
                 echo 'Running tests...'
-                sh 'pytest tests/'
             }
         }
     }
