@@ -15,3 +15,5 @@ func main() {
 		fmt.Println("Вы пенсионер.")
 	}
 }
+
+// Oh this is big crazy World
