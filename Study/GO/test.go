@@ -1,3 +1,8 @@
+package main
 a := 8
 b := 5
-fmt.Println(a % b)
+import "fmt"
+
+func main() {
+	fmt.Println(a % b)
+}
