@@ -7,5 +7,6 @@ func main() {
 	b := a + 2
 	a -= 3
 	b /= a
-	fmt.Println(b)
+	x = !(7 >= 4) && 5 == 5
+	fmt.Println(x)
 }
