@@ -5,6 +5,8 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo 'Cloning the repository...'
+                echo 'Hello Worald'
+                echo 'Hello Worald'
                 git url: 'https://github.com/messer1988/mygithubproject.git', branch: 'main'
                 //http://katyablog.top/
 
