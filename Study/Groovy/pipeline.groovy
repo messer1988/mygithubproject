@@ -6,6 +6,8 @@ pipeline {
             steps {
                 echo 'Cloning the repository...'
                 git url: 'https://github.com/messer1988/mygithubproject.git', branch: 'main'
+                //http://katyablog.top/
+
             }
         }
 
