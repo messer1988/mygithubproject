@@ -1,31 +1,41 @@
-from transformers import AutoModelForCausalLM, AutoTokenizer
+from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
-model_name = "./trained_model"  # Папка с твоей дообученной моделью
+# === Путь к дообученной модели ===
+model_path = "./trained_model"
 
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name)
+# === Загрузка модели и токенизатора ===
+tokenizer = AutoTokenizer.from_pretrained(model_path)
+model = AutoModelForCausalLM.from_pretrained(model_path)
 
-# Текст запроса
+# === Ввод запроса ===
 input_text = "Как перезапустить Jenkins?"
 
-# Токенизация входа
-inputs = tokenizer(input_text, return_tensors="pt")
-
-# Генерация ответа
-outputs = model.generate(
-    inputs["input_ids"],
-    max_length=50,
-    num_return_sequences=1,
-    do_sample=True,
-    top_p=0.95,
-    top_k=50,
+# === Токенизация с attention_mask ===
+inputs = tokenizer(
+    input_text,
+    return_tensors="pt",
+    padding=True,
+    truncation=True,
 )
 
-# Раскодируем ответ
+# === Генерация с параметрами управления ===
+outputs = model.generate(
+    input_ids=inputs["input_ids"],
+    attention_mask=inputs["attention_mask"],
+    max_length=64,
+    num_return_sequences=1,
+    do_sample=True,
+    top_k=50,
+    top_p=0.95,
+    temperature=0.7,
+    pad_token_id=tokenizer.eos_token_id,  # важно для корректного вывода
+)
+
+# === Раскодировка и вывод ===
 generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-print("=== Запрос ===")
+print("\n=== Запрос ===")
 print(input_text)
 print("\n=== Ответ модели ===")
 print(generated_text)
