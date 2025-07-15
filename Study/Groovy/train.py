@@ -1,15 +1,15 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer, Trainer, TrainingArguments
 import datasets
 
-# 1. Название модели — лёгкая модель для обучения
-model_name = "gpt2"  # Можно заменить на другую легкую модель
+model_name = "gpt2"
 
-# 2. Загрузка модели и токенизатора
+# Загрузка токенизатора и модели
 tokenizer = AutoTokenizer.from_pretrained(model_name)
-tokenizer.pad_token = tokenizer.eos_token   # <- добавь эту строку
+tokenizer.pad_token = tokenizer.eos_token  # Устанавливаем pad_token
+
 model = AutoModelForCausalLM.from_pretrained(model_name)
 
-# 3. Мини-датасет: пара "вопрос-ответ"
+# Мини-датасет с парой "вопрос-ответ"
 data = {
     "train": [
         {"text": "Как перезапустить Jenkins? Перезапустить systemctl jenkins."},
@@ -17,14 +17,20 @@ data = {
     ]
 }
 
-# 4. Преобразование данных в Dataset
+# Функция токенизации с добавлением labels
 def tokenize_function(examples):
-    return tokenizer(examples["text"], truncation=True, padding="max_length", max_length=64)
+    tokenized = tokenizer(
+        examples["text"],
+        truncation=True,
+        padding="max_length",
+        max_length=64,
+    )
+    tokenized["labels"] = tokenized["input_ids"].copy()
+    return tokenized
 
 dataset = datasets.Dataset.from_list(data["train"])
 tokenized_dataset = dataset.map(tokenize_function, batched=True)
 
-# 5. Параметры обучения
 training_args = TrainingArguments(
     output_dir="./results",
     num_train_epochs=1,
@@ -34,12 +40,10 @@ training_args = TrainingArguments(
     save_total_limit=1,
 )
 
-# 6. Инициализация тренера
 trainer = Trainer(
     model=model,
     args=training_args,
     train_dataset=tokenized_dataset,
 )
 
-# 7. Запуск обучения
 trainer.train()
