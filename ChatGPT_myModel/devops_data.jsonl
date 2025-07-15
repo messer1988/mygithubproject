@@ -1,0 +1,49 @@
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как проверить статус nginx? systemctl status nginx"}
+{"text": "Как перезапустить nginx? systemctl restart nginx"}
+{"text": "Как посмотреть логи nginx? journalctl -u nginx -f"}
+{"text": "Как задеплоить playbook в Ansible? ansible-playbook deploy.yml"}
+{"text": "Как скопировать файл с помощью Ansible? ansible all -m copy -a 'src=/tmp/a dest=/tmp/b'"}
+{"text": "Как посмотреть статус сервиса в systemd? systemctl status <service>"}
+{"text": "Как обновить пакеты в Ubuntu? sudo apt update && sudo apt upgrade -y"}
+{"text": "Как установить docker? sudo apt install docker.io -y"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как проверить статус docker? systemctl status docker"}
+{"text": "Как получить список всех контейнеров? docker ps -a"}
+{"text": "Как удалить docker контейнер? docker rm <container_id>"}
+{"text": "Как установить Ansible? sudo apt install ansible -y"}
+{"text": "Как проверить доступ по SSH? ssh user@host"}
+{"text": "Как создать пользователя в Linux? sudo adduser username"}
+{"text": "Как удалить пользователя в Linux? sudo deluser username"}
+{"text": "Как посмотреть открытые порты? ss -tuln"}
+{"text": "Как проверить свободное место на диске? df -h"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как остановить сервис? systemctl stop <service>"}
+{"text": "Как стартовать сервис? systemctl start <service>"}
+{"text": "Как перезапустить сервер? sudo reboot"}
+{"text": "Как сделать ping до хоста? ping google.com"}
+{"text": "Как посмотреть процессы? ps aux"}
+{"text": "Как завершить процесс по PID? kill -9 <pid>"}
+{"text": "Как сделать деплой в Jenkins? Создать pipeline и запустить билд"}
+{"text": "Как проверить, на каком порту слушает сервис? netstat -tulnp"}
+{"text": "Как клонировать репозиторий Git? git clone <url>"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как отправить изменения в Git? git push origin main"}
+{"text": "Как создать новую ветку? git checkout -b new-branch"}
+{"text": "Как переключиться на другую ветку? git checkout develop"}
+{"text": "Как просмотреть логи git? git log"}
+{"text": "Как изменить права на файл? chmod 755 file.sh"}
+{"text": "Как изменить владельца файла? chown user:user file.txt"}
+{"text": "Как проверить загрузку CPU? top"}
+{"text": "Как проверить IP адрес сервера? ip a"}
+{"text": "Как установить Python? sudo apt install python3"}
+{"text": "Как установить pip? sudo apt install python3-pip"}
+{"text": "Как создать виртуальное окружение? python3 -m venv venv"}
+{"text": "Как активировать виртуальное окружение? source venv/bin/activate"}
+{"text": "Как выйти из виртуального окружения? deactivate"}
+{"text": "Как установить зависимости из requirements.txt? pip install -r requirements.txt"}
+{"text": "Как проверить доступность сайта? curl -I https://example.com"}
+{"text": "Как проверить DNS запись? nslookup example.com"}
+{"text": "Как проверить маршруты? traceroute google.com"}
+{"text": "Как синхронизировать время? timedatectl set-ntp true"}
+{"text": "Как установить ntp? sudo apt install ntp"}
