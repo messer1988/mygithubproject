@@ -1,7 +1,7 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 
-model_name = "./results"  # Папка с твоей дообученной моделью
+model_name = "./trained_model"  # Папка с твоей дообученной моделью
 
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
