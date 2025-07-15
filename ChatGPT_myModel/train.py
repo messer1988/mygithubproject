@@ -1,15 +1,16 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer, Trainer, TrainingArguments
 import datasets
 
+# Используем базовую GPT-2
 model_name = "gpt2"
 
-# Загрузка токенизатора и модели
+# Загружаем токенизатор и модель
 tokenizer = AutoTokenizer.from_pretrained(model_name)
-tokenizer.pad_token = tokenizer.eos_token  # Устанавливаем pad_token
+tokenizer.pad_token = tokenizer.eos_token  # GPT-2 не имеет pad_token — используем eos
 
 model = AutoModelForCausalLM.from_pretrained(model_name)
 
-# Мини-датасет с парой "вопрос-ответ"
+# Простейший мини-датасет (можно расширить позже)
 data = {
     "train": [
         {"text": "Как перезапустить Jenkins? Перезапустить systemctl jenkins."},
@@ -17,7 +18,7 @@ data = {
     ]
 }
 
-# Функция токенизации с добавлением labels
+# Токенизация + добавление labels
 def tokenize_function(examples):
     tokenized = tokenizer(
         examples["text"],
@@ -28,9 +29,11 @@ def tokenize_function(examples):
     tokenized["labels"] = tokenized["input_ids"].copy()
     return tokenized
 
+# Создание и токенизация датасета
 dataset = datasets.Dataset.from_list(data["train"])
 tokenized_dataset = dataset.map(tokenize_function, batched=True)
 
+# Параметры обучения
 training_args = TrainingArguments(
     output_dir="./results",
     num_train_epochs=1,
@@ -40,6 +43,7 @@ training_args = TrainingArguments(
     save_total_limit=1,
 )
 
+# Создаём Trainer и запускаем обучение
 trainer = Trainer(
     model=model,
     args=training_args,
@@ -47,3 +51,7 @@ trainer = Trainer(
 )
 
 trainer.train()
+
+# 💾 Сохраняем обученную модель и токенизатор
+model.save_pretrained("./trained_model")
+tokenizer.save_pretrained("./trained_model")
