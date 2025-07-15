@@ -6,6 +6,7 @@ model_name = "gpt2"  # Можно заменить на другую легку�
 
 # 2. Загрузка модели и токенизатора
 tokenizer = AutoTokenizer.from_pretrained(model_name)
+tokenizer.pad_token = tokenizer.eos_token   # <- добавь эту строку
 model = AutoModelForCausalLM.from_pretrained(model_name)
 
 # 3. Мини-датасет: пара "вопрос-ответ"
@@ -22,9 +23,6 @@ def tokenize_function(examples):
 
 dataset = datasets.Dataset.from_list(data["train"])
 tokenized_dataset = dataset.map(tokenize_function, batched=True)
-tokenizer.pad_token = tokenizer.eos_token   # <- добавь эту строку
-
-model = AutoModelForCausalLM.from_pretrained(model_name)
 
 # 5. Параметры обучения
 training_args = TrainingArguments(
