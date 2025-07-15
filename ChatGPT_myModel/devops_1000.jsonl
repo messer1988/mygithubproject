@@ -1,0 +1,1000 @@
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как остановить контейнер? docker stop <id>"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как скопировать файл? ansible all -m copy -a 'src=./file dest=/tmp/file'"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как посмотреть историю коммитов? git log"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как определить функцию в Groovy? def hello(name) { println \"Hello, $name\" }"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как запустить playbook? ansible-playbook deploy.yml"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как посмотреть запущенные процессы? ps aux"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как создать переменную в Groovy? def name = 'John'"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как передать переменные в Ansible? --extra-vars 'var=value'"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как создать срез в Go? mySlice := []int{1, 2, 3}"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как получить лог pod? oc logs <pod>"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как компилировать Go файл? go build main.go"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как использовать шаблон Jinja2? Файл .j2 и переменные в playbook"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как вызвать shell в Groovy Jenkinsfile? sh 'ls -la'"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как клонировать репозиторий? git clone <url>"}
+{"text": "Как настроить Jenkins webhook? Включить webhook в настройках GitHub и указать URL Jenkins"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как проверить статус кластера? oc status"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как задеплоить приложение? oc apply -f deployment.yaml"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как установить Jenkins на Ubuntu? sudo apt install jenkins"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как собрать образ из Dockerfile? docker build -t myapp ."}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как объявить переменную в Go? var x int = 5"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как посмотреть все pods? oc get pods"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как запустить контейнер? docker run -d nginx"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как использовать if в Groovy? if (x > 1) { println 'ok' }"}
+{"text": "Как создать новый pipeline? Создать Jenkinsfile и загрузить в репозиторий"}
+{"text": "Как удалить образ? docker rmi <image_id>"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как посмотреть все контейнеры? docker ps -a"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как посмотреть логи системных сервисов? journalctl -xe"}
+{"text": "Как перезапустить Jenkins? systemctl restart jenkins"}
+{"text": "Как переключить проект? oc project myproject"}
+{"text": "Как посмотреть логи Jenkins? journalctl -u jenkins -f"}
+{"text": "Как написать цикл for в Groovy? for (i in 1..5) { println i }"}
+{"text": "Как перезагрузить сервер? sudo reboot"}
+{"text": "Как узнать свободное место на диске? df -h"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как создать ветку? git checkout -b new-branch"}
+{"text": "Как переключиться на другую ветку? git checkout dev"}
+{"text": "Как узнать IP адрес? ip a"}
+{"text": "Как перезапустить сервис через Ansible? ansible all -m service -a 'name=nginx state=restarted'"}
+{"text": "Как закоммитить изменения? git commit -m 'message'"}
+{"text": "Как написать функцию в Go? func sum(a int, b int) int { return a + b }"}
+{"text": "Как импортировать пакет в Go? import \"fmt\""}
+{"text": "Как проверить статус кластера? oc status"}
