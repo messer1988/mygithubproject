@@ -2,7 +2,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
 # === Путь к дообученной модели ===
-model_path = "./final_model"
+model_path = "D:/ChatGPT_myModel/final_model"
 
 # === Загрузка модели и токенизатора ===
 tokenizer = AutoTokenizer.from_pretrained(model_path)
