@@ -1,5 +1,4 @@
 apiVersion: v1
-#test
 kind: Service
 metadata:
   name: ingress-nginx-controller
