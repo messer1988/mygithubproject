@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: nginx-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: nginx
@@ -15,29 +15,22 @@ spec:
       containers:
         - name: nginx
           image: nginx:latest
-          ports:
-            - containerPort: 80
-
-          # ✅ Подключаем переменные ENV из ConfigMap
           envFrom:
             - configMapRef:
                 name: nginx-config
-
-            # ✅ Подключаем переменные из Secret
             - secretRef:
                 name: nginx-secret
-
-          # ✅ Наши probes остаются как есть
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 10
-            periodSeconds: 5
-
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 3
+          volumeMounts:
+            - name: nginx-template
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+          command: ["/bin/sh","-c"]
+          args:
+            - |
+              envsubst < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default_final.conf &&
+              mv /etc/nginx/conf.d/default_final.conf /etc/nginx/conf.d/default.conf &&
+              nginx -g "daemon off;"
+      volumes:
+        - name: nginx-template
+          configMap:
+            name: nginx-template
