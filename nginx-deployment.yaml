@@ -13,25 +13,31 @@ spec:
         app: nginx
     spec:
       containers:
-      - name: nginx
-        image: nginx:latest
-        ports:
-        - containerPort: 80
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 10
-          periodSeconds: 5
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 3
-        startupProbe:
-          tcpSocket:
-            port: 80
-          initialDelaySeconds: 2
-          periodSeconds: 5
-          failureThreshold: 10
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+
+          # ✅ Подключаем переменные ENV из ConfigMap
+          envFrom:
+            - configMapRef:
+                name: nginx-config
+
+            # ✅ Подключаем переменные из Secret
+            - secretRef:
+                name: nginx-secret
+
+          # ✅ Наши probes остаются как есть
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 3
