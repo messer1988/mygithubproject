@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nginx-app.fullname" . }}
+  labels:
+    {{- include "nginx-app.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "nginx-app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "nginx-app.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          # подтягиваем ENV из ConfigMap и Secret
+          envFrom:
+            - configMapRef:
+                name: {{ include "nginx-app.fullname" . }}-config
+            - secretRef:
+                name: {{ include "nginx-app.fullname" . }}-secret
+
+          # монтируем шаблон конфига как файл во временный путь
+          volumeMounts:
+            - name: nginx-template
+              mountPath: /tmp/default.conf
+              subPath: default.conf
+
+          # на старте подставляем ENV в шаблон и запускаем nginx
+          command: ["/bin/sh","-c"]
+          args:
+            - |
+              envsubst < /tmp/default.conf > /etc/nginx/conf.d/default.conf && \
+              exec nginx -g "daemon off;"
+
+          ports:
+            - containerPort: 80
+
+          # probes (боевые значения по умолчанию)
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 3
+          startupProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+
+      volumes:
+        - name: nginx-template
+          configMap:
+            name: {{ include "nginx-app.fullname" . }}-template
+
