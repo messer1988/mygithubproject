@@ -1,0 +1,24 @@
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: alpine           # нужен envsubst (есть в alpine)
+  pullPolicy: IfNotPresent
+
+service:
+  port: 80
+
+ingress:
+  enabled: true
+  host: nginx.local
+  tls:
+    enabled: true
+    secretName: nginx-tls   # используем уже созданный TLS Secret
+
+env:
+  config:
+    APP_ENV: production
+    WELCOME_MSG: "Hello from ConfigMap"
+  secret:
+    DB_USER: admin
+    DB_PASS: SuperSecret123
