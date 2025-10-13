@@ -1,0 +1,12 @@
+#общее обновление
+brew update
+
+# Docker Desktop (нужен для Minikube/Kind и образов )
+brew install --cask docker
+open -a Docker
+
+# kubectl + helm + OpenShift-cli
+brew install kubectl helm openshift-cli
+kubectl version --client ( узнать версию kubectl)
+helm version ( узнать версию helm )
+os version --client ( узнать версию openShift)

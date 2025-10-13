@@ -1,0 +1,56 @@
+1.3 ( Быстрый смоке тест приложения )
+kubectl create deployment hello --image=nginx:alpine
+kubectl expose deployment hello --port=80 --type=ClusterIP
+
+# Ingress c хостом
+cat <<'YAML' | kubectl apply -f -
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hello
+spec:
+  rules:
+  - host: nginx.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hello
+            port:
+              number: 80
+YAML
+
+# hosts и проверка
+echo "127.0.0.1 nginx.local" | sudo tee -a /etc/hosts
+kubectl -n ingress-nginx port-forward svc/ingress-nginx-controller 8080:80
+# в другом терминале
+curl -I http://nginx.local:8080
+Если нужно HTTPS: создайте TLS Secret и добавьте spec.tls в Ingress, а порт-форвард делайте на 8443:443, проверка: curl -k https://nginx.local:8443.
+
+
+kubectl – это клиент для управления Kubernetes-кластером.
+create deployment – говорит Kubernetes создать объект типа Deployment.
+Deployment – это контроллер, который управляет подами (Pods) и следит, чтобы нужное количество копий приложения было запущено. Он также умеет выполнять обновления и откаты.
+hello – это имя Deployment, которое мы задаём. Kubernetes будет знать этот объект именно под этим именем.
+--image=nginx:alpine – указываем образ контейнера, который должен запускаться в подах.
+В данном случае это облегчённая версия веб-сервера nginx, собранная на базе дистрибутива Alpine Linux.
+
+Разбор по частям
+kubectl expose
+Создаёт объект Service в Kubernetes. Service — это абстракция, которая даёт стабильный IP-адрес и имя (DNS) для доступа к Pod’ам, управляемым Deployment’ом или ReplicaSet’ом.
+deployment hello
+Мы указываем, что сервис нужно построить на основе Deployment с именем hello.
+Это значит: все Pod’ы, созданные этим Deployment, автоматически попадут под новый Service (по их label’ам).
+--port=80
+Это порт, который будет открыт в сервисе. Когда кто-то будет обращаться к этому Service (по ClusterIP), трафик будет идти на порт 80 Pod’ов.
+--type=ClusterIP
+Указывает тип сервиса.
+ClusterIP — сервис доступен только внутри кластера (по внутреннему IP).
+Этот тип используется для внутреннего взаимодействия между сервисами (например, фронтенд → бэкенд).
+Извне (с компьютера вне кластера) к нему подключиться нельзя без дополнительных инструментов (Ingress, NodePort, LoadBalancer или port-forward).
+Что получится в итоге
+Будет создан объект Service с именем hello (такой же, как у Deployment, если не указать другое имя).
+Этот Service получит внутренний ClusterIP (например: 10.96.123.45).
+Весь трафик на этот IP:80 будет балансироваться между Pod’ами Deployment hello.
