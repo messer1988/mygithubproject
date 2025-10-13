@@ -1,0 +1,11 @@
+# HTTP
+kubectl -n ingress-nginx port-forward svc/ingress-nginx-controller 8080:80
+curl -I http://nginx.local:8080
+
+# HTTPS (если включили TLS в Ingress)
+kubectl -n ingress-nginx port-forward svc/ingress-nginx-controller 8443:443
+curl -k https://nginx.local:8443
+
+
+helm upgrade nginx-app .
+helm uninstall nginx-app

@@ -1,0 +1,35 @@
+helm create nginx-app  ( создаем helm с названием nginx-app
+
+cd nginx-app ( переходим в  helm nginx-app )
+
+Удаляем лишние файлы из templates
+rm -f templates/hpa.yaml templates/serviceaccount.yaml templates/tests/test-connection.yaml templates/httproute.yaml 2>/dev/null
+
+2.2 Минимальные значения (values.yaml — пример)
+replicaCount: 2
+image:
+  repository: nginx
+  tag: alpine
+  pullPolicy: IfNotPresent
+
+service:
+  port: 80
+
+ingress:
+  enabled: true
+  host: nginx.local
+  tls:
+    enabled: false      # true + secretName, если настраиваете HTTPS
+
+env:
+  config:
+    APP_ENV: production
+    WELCOME_MSG: "Hello from ConfigMap"
+  secret:
+    DB_USER: admin
+    DB_PASS: SuperSecret123
+
+
+Установка Чарта
+helm install nginx-app .
+kubectl get pods,svc,ingress
