@@ -9,4 +9,4 @@ open -a Docker
 brew install kubectl helm openshift-cli
 kubectl version --client ( узнать версию kubectl)
 helm version ( узнать версию helm )
-os version --client ( узнать версию openShift)
+oc version --client ( узнать версию openShift)

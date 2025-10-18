@@ -1,0 +1,26 @@
+# Установка OpenShift
+
+brew install openshift-cli
+
+Проверка к какому ты кластеру подключен
+
+oc whoami
+oc status
+oc get nodes
+
+Что нужно сделать, чтобы завести OpenShift Local на Mac M1
+Скачай OpenShift Local (crc) с официального сайта Red Hat:
+👉 https://developers.redhat.com/products/openshift-local/overview
+
+Установить утилиту crc
+brew install crc
+
+Подготовь систему (один раз):
+crc setup
+
+1. Дать права на выполнение vfkit
+sudo chmod +x /usr/local/crc/vfkit
+
+Запусти кластер:
+crc start
+
