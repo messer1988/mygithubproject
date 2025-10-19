@@ -1,2 +1,45 @@
-oc new-project demo
 oc projects   # список всех проектов
+
+
+Проверим состояниие кластера:
+crc status
+
+Логинимся как Developer
+oc login -u developer -p developer https://api.crc.testing:6443
+
+Логинимся под админом
+oc login -u kubeadmin -p $(cat ~/.crc/machines/crc/kubeadmin-password) https://api.crc.testing:6443
+
+
+Проверим кто мы
+oc whoami
+oc projects
+
+Посмотрим ноды
+oc get nodes
+
+
+
+Создать проект
+oc new-project demo
+
+
+oc new-app --name=hello nginx:alpine
+
+Что именно делает эта команда
+Создаёт DeploymentConfig (или Deployment, в зависимости от версии)
+Берёт образ nginx:alpine из Docker Hub.
+Создаёт объект, который управляет Pod’ами (реплики, рестарты и т.д.).
+Имя ресурса будет hello.
+Создаёт Service (ClusterIP)
+По умолчанию Service экспонирует порт контейнера наружу в кластере.
+Имя сервиса = hello.
+Деплоит Pod с контейнером
+Поднимает контейнер с nginx:alpine.
+В Pod будут метки app=hello.
+
+
+
+oc expose svc/hello
+→ создаётся Route, и у тебя появляется внешний URL для доступа.
+
