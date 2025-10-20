@@ -1,0 +1,17 @@
+2) Как проходит запрос пользователя (end-to-end)
+
+Сценарий: пользователь открывает https://nginx.local/env и получает ответ приложения.
+	1.	DNS → IP Ingress-точки
+Браузер/клиент резолвит nginx.local → адрес внешнего LB/Ingress Controller (в minikube — наш port-forward/туннель).
+	2.	TLS-терминация (если включено)
+Ingress Controller (например, NGINX) принимает TCP 443, завершает TLS с использованием tls-секрета (сертификат/ключ).
+	3.	L7-маршрутизация по правилам Ingress
+Контроллер смотрит host/path и находит бэкенд: Service nginx-app порт 80.
+	4.	Service → kube-proxy → EndpointSlice
+Обращение к ClusterIP сервиса, а kube-proxy по таблицам iptables/ipvs перенаправляет к одному из IP Pod’ов в EndpointSlice (только готовые Pod’ы — см. readinessProbe).
+	5.	Pod / контейнеры
+Запрос входит в контейнер приложения (nginx). Контейнер использует ENV из ConfigMap/Secret и локальные тома, отрабатывает логику и формирует ответ.
+	6.	Ответ обратно
+Ответ идёт тем же путём обратно: Pod → kube-proxy → Service → Ingress Controller → клиент.
+
+Важный нюанс: readinessProbe влияет на состав Endpoints — Pod с «красной» готовностью исключается из балансировки сервиса (Ingress не пошлёт в него трафик).
