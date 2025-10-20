@@ -1,4 +1,6 @@
 1) kubernetes кластер с Minikube ( macOS, Apple )
 1.1 (Старт кластера)
+minikube start
+minikube stop
 minikube start --driver=docker
 kubectl get nodes ( Проверка работоспособности control-plane
