@@ -19,9 +19,30 @@ oc projects
 oc get nodes
 
 
-
+1.1
 Создать проект
 oc new-project demo
+1.2
+Проверили, что он создался
+oc project
+1.3
+Создаем ConfigMap
+oc create configmap nginx-conf --from-file=$(pwd)\nginx-cm\nginx.conf
+oc create configmap nginx-conf --from-file=\nginx.conf
+
+1.4
+Если надо удалить
+oc delete configmap index.html
+1.5
+Применяем конфигурацию
+oc apply -f quote-app.yaml
+1.6
+Проверяем как поднялись pod
+oc get pods -w
+1.7
+Переходим в консоль
+crc console
+
 
 
 oc new-app --name=hello nginx:alpine
