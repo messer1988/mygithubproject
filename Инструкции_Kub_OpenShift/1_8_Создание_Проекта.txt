@@ -43,3 +43,24 @@ oc new-app --name=hello nginx:alpine
 oc expose svc/hello
 → создаётся Route, и у тебя появляется внешний URL для доступа.
 
+
+Применить yaml
+oc apply -f nginx-lab.yaml
+
+Редактировать deploy
+voc edit deploy nginx-conf
+
+Вытащить конфиг в file
+oc get deployment hello -o yaml > hello-deploy.yaml
+
+
+crc start
+ERRO Is 'crc daemon' running? Cannot reach daemon API: Get "http://unix/api/version": dial unix /Users/mac/.crc/crc-http.sock: connect: no such file or directory
+
+Проверить не завис ли процесс
+ps aux | grep crc
+установка Демона
+crc daemon
+
+
+
