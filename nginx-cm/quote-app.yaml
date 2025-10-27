@@ -1,24 +1,33 @@
-apiVersion: apps.openshift.io/v1
-kind: DeploymentConfig
-metadata:
+apiVersion: apps.openshift.io/v1 # Строка общая для всех ресурсов которые создаются в OpenShift и это история про версионирование API.
+                                 # Тоесть здесь указывается, группа ресурсов и версия API для этой группы ресурсов
+                                 # Можете заметить, что здесь указан OpenShift и DeploymentConfig это исключительно ресур OpenShift в Kubernetes его нет.
+
+kind: DeploymentConfig           # Это типы нашего ресурса этой строчкой мы говорим, что мы собираемся создавать.
+                                 # В данном случае мы создаем DeploymentConfig
+
+metadata:                        # Это секция с какими то метаданными сдесь мы можем указать имя нашего ресурса в данном случае "nginx"
+                                 # Набор lebels метки в формате ключ + значение по которым можно будет делать выборку наших ресурсов.
+                                 # Тоесть если допустим если нам нужно будет удалить все ресурсы у которых метка app имеет значение "quote-app"
   name: nginx
   labels:
     app: quote-app
-spec:
-  replicas: 1
-  template:
-    metadata:
+spec:                            # Раздел spec в котором указывается спецификация нашего deploymentConfig
+  replicas: 1                    # Первой строкой мы указываем "replicas" тоесть колличество подов поднятых в момент Deploy
+  template:                      # Указываем описание нашего "Pod"
+                                 # В template это то по какому шаблону мы будем создавать "Pod"
+
+    metadata:                    # В metadata pod так же идет указание labels мы пишем, что эти Pod относятся к app "nginx"
       labels:
         app: nginx
-    spec:
-      containers:
-        - name: nginx
-          image: nginxinc/nginx-unprivileged
+    spec:                        # Дальше идет spec непосредственно Pod
+      containers:                # Контейнеры которые созданы в рамках Pod как Вы помните, что в Pod могут быть созданы один или несколько контейнеров
+        - name: nginx            # Здесь у нас перчесляется только один контейнер с именем "nginx"
+          image: nginxinc/nginx-unprivileged  # Образ из которого этот контейнер должен быть создан
           ports:
-            - containerPort: 80
-          volumeMounts:
-            - mountPath: /usr/share/nginx/html
-              name: nginx-html
+            - containerPort: 80  # Указываем порты которые открыты в этом контейнере их может быть несколько их можно задать ввиде массива.
+          volumeMounts:          # Следующая секция подключаемые тома монтирование в файловую схему контейнера определенных ресурсов можно задать вввиде массива
+            - mountPath: /usr/share/nginx/html  # путь до деректории в которую том должен быть смонтирован
+              name: nginx-html   # Название самого Тома
             - mountPath: /etc/nginx
               name: nginx-conf
       volumes:
