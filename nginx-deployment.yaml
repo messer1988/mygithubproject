@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: nginx-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: nginx
@@ -13,23 +13,7 @@ spec:
         app: nginx
     spec:
       containers:
-        - name: nginx
-          image: nginx:alpine   # ВАЖНО — alpine содержит envsubst
-          envFrom:
-            - configMapRef:
-                name: nginx-config
-            - secretRef:
-                name: nginx-secret
-          volumeMounts:
-            - name: nginx-template
-              mountPath: /tmp/default.conf        # <-- Монтируем временно!
-              subPath: default.conf
-          command: ["/bin/sh","-c"]
-          args:
-            - |
-              envsubst < /tmp/default.conf > /etc/nginx/conf.d/default.conf &&
-              exec nginx -g "daemon off;"
-      volumes:
-        - name: nginx-template
-          configMap:
-            name: nginx-template
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80

@@ -1,0 +1,218 @@
+Установили и запустили minikube
+brew install minikube
+minikube start --driver=docker --cpus=4 --memory=8192
+
+Проверили, что Conter Plane работает
+kubectl get nodes
+
+Следующий шаг создаем минимальный nginx-deployment.yaml в деректории в которой мы находимся
+vi nginx-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        ports:
+        - containerPort: 80
+
+Применяем nginx-deployment.yaml
+kubectl apply -f nginx-deployment.yaml
+
+Проверяем, что nginx-deployment.yaml успешно создался.
+kubectl get deployment
+
+
+
+
+
+Следущий шаг создаем минимальный nginx-service.yaml
+vi nginx-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-service
+spec:
+  selector:
+    app: nginx
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+  type: ClusterIP
+
+Применяем nginx-service.yaml
+kubectl apply -f nginx-service.yaml
+
+Проверяем, что nginx-service.yaml успешно создался.
+kubectl get service
+
+Проверяем включен ли Ingress controller если нет включаем
+minikube addons enable ingress
+Далее создаем ingress
+vi nginx-ingress-tls.yaml
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+spec:
+  tls:
+  - hosts:
+    - nginx.local
+    secretName: nginx-tls
+  rules:
+  - host: nginx.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
+
+Применяем nginx-ingress-tls.yaml
+kubectl apply -f nginx-ingress-tls.yaml
+
+Проверяем, что nginx-ingress-tls.yaml успешно создался.
+kubectl -n ingress-nginx get pods
+
+
+Следующий шаг создаем ConfigMap => nginx-template-configmap.yaml
+vi nginx-template-configmap.yaml
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-template
+data:
+  default.conf: |
+    server {
+        listen 80;
+        location / {
+            return 200 "Hello from NGINX!\n";
+        }
+        location /env {
+            default_type text/plain;
+            return 200 "APP_ENV=$APP_ENV\nWELCOME_MSG=$WELCOME_MSG\nDB_USER=$DB_USER\n";
+        }
+    }
+
+Применяем nginx-template-configmap.yaml
+kubectl apply -f nginx-template-configmap.yaml
+
+Проверяем, что nginx-template-configmap.yaml успешно создался.
+kubectl "Дописать"
+
+Следующий шаг настройки Кластера
+cd /etc
+находим hosts
+vi hosts
+дописываем строку
+127.0.0.1 nginx.local
+Сохраняем проверряем
+echo "$(minikube ip) nginx.local" | sudo tee -a /etc/hosts
+ответ ожидаем
+192.168.49.2 nginx.local
+
+Далее настроим, чтобы при обращении к сервису nginx по пути
+https://nginx.local:8443
+Подкладывался сертификат
+Шаг первый создадим самописный сертификат
+Создаем папку
+mkdir tls
+Переходим в нее
+cd tls
+# создаём ключ и самоподписанный сертификат
+Выполняем команду
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout tls.key -out tls.crt \
+  -subj "/CN=nginx.local/O=nginx.local"
+
+В итоге создадутся две папки
+	•	tls.crt — сертификат
+	•	tls.key — приватный ключ
+
+Создадим Kubernetes secret
+Команда
+cd ..
+kubectl create secret tls nginx-tls \
+  --cert=tls/tls.crt \
+  --key=tls/tls.key
+
+Проверим
+kubectl get secret nginx-tls
+
+Обновим Ingress
+vi nginx-ingress-tls
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+spec:
+  tls:
+  - hosts:
+    - nginx.local
+    secretName: nginx-tls
+  rules:
+  - host: nginx.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx-service
+            port:
+              number: 80
+
+
+Применяем nginx-ingress-tls.yaml
+kubectl apply -f nginx-ingress-tls.yaml
+
+Проверяем, что nginx-ingress-tls.yaml успешно создался.
+kubectl -n ingress-nginx get pods
+
+
+Пробросим порт в Пром среде возможно не понадобиться
+kubectl -n ingress-nginx port-forward svc/ingress-nginx-controller 8443:443
+
+проверим, что все Pod кластера работают.
+minikube kubectl -- get po -A
+
+Зайдем на web консоль кластера
+minikube dashboard
+
+Зайдем на web консоль nginx
+https://nginx.local:8443
+
+Бросим curl запрос пссмотрим ответ
+curl -kI https://nginx.local:8443
+Ответ
+mac@macs-MacBook-Pro mygithubproject % curl -kI https://nginx.local:8443
+HTTP/2 200
+date: Tue, 28 Oct 2025 13:58:12 GMT
+content-type: text/html
+content-length: 615
+last-modified: Tue, 07 Oct 2025 17:04:07 GMT
+etag: "68e54807-267"
+accept-ranges: bytes
+
+
+
+
