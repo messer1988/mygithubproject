@@ -1,11 +1,47 @@
-helm create nginx-app  ( создаем helm с названием nginx-app
+Установка Helm
+brew install helm
 
-cd nginx-app ( переходим в  helm nginx-app )
+Проверить версию helm
+helm version
+
+( создаем helm с названием nginx-app )
+helm create nginx-app
+
+( переходим в  helm nginx-app )
+cd nginx-app
 
 Удаляем лишние файлы из templates
 rm -f templates/hpa.yaml templates/serviceaccount.yaml templates/tests/test-connection.yaml templates/httproute.yaml 2>/dev/null
 
-2.2 Минимальные значения (values.yaml — пример)
+Есть два варианта запуска Helm!
+1) Развернуть helm не перенося в него уже ранее настроенные ресурсы
+
+При разворачивании helm он автоматически создает ресурсы
+nginx-app/
+  Chart.yaml
+  values.yaml
+  templates/
+    deployment.yaml
+    service.yaml
+    ingress.yaml
+    _helpers.tpl
+    hpa.yaml
+    serviceaccount.yaml
+    tests/
+deployment, service, ingress и др тоесть то, что мы создавали самостоятельно руками helm создаст автоматически.
+
+
+2) Развернуть helm перенести в него ранее уже настроенные ресурсы kuber
+Наш Deployment => с liveness/readinness/startup probes и envFrom (nginx-deployment.yaml)
+Service => (ClusterIP) (nginx-service.yaml)
+Ingress c TLS (nginx-ingress-tls.yaml)
+ConfigMap и Secret ссылающийся на values.yaml
+Шаблон envsubst внутри Deployment
+
+Мы будем разворачивать по (2) пути
+
+
+2.2 Минимальные значения (values.yaml — пример)   values.yaml — единая точка настроек
 replicaCount: 2
 image:
   repository: nginx
@@ -29,6 +65,8 @@ env:
     DB_USER: admin
     DB_PASS: SuperSecret123
 
+Перед установкой Chart можно проверить конфиг шаблона
+helm template ./nginx-app
 
 Установка Чарта
 helm install nginx-app .
