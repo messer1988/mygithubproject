@@ -1,0 +1,138 @@
+Command
+helm create nginx-app
+Этой командой Helm создает шаблон приложения в котором все построено вокруг шаблонизации Yaml file :
+
+
+
+nginx-app/
+  Chart.yaml
+  values.yaml
+  templates/
+    deployment.yaml
+    service.yaml
+    ingress.yaml
+    _helpers.tpl
+
+Chart.yaml =>
+       Это паспорт чарта — тут просто метаинформация:
+
+Пример Chart.yaml:
+apiVersion: v2
+name: nginx-app
+version: 0.1.0
+description: A Helm chart for Kubernetes
+
+Helm использует его, чтобы понимать, как называется чарт, его версия, зависимости и т.д.
+Он не влияет на деплой напрямую.
+
+
+
+values.yaml =>
+       Это файл с переменными по умолчанию.
+       Он — сердце Helm-чарта, потому что сюда выносится всё, что можно изменять при установке.
+
+Пример values.yaml:
+replicaCount: 2
+
+image:
+  repository: nginx
+  tag: "1.25"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+
+Любое значение из values.yaml можно подставить в шаблон с помощью {{ .Values.<путь> }}
+Например:
+{{ .Values.image.repository }} → nginx
+
+
+
+templates/ =>
+    Это место, где лежат шаблоны YAML-манифестов (Deployment, Service, Ingress и т.д.)
+    Например, в templates/deployment.yaml ты увидишь что-то вроде:
+
+
+deployment.yaml Пример:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nginx-app.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "nginx-app.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "nginx-app.name" . }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.service.port }}
+
+
+Helm при установке подставит значения из values.yaml и соберёт полноценный Deployment, который Kubernetes сможет применить.
+
+
+_helpers.tpl =>
+     Это файл с функциями и шаблонами-помощниками.
+     Например, чтобы не писать длинные имена в каждом шаблоне, здесь определяют функции вроде:
+
+{{- define "nginx-app.name" -}}
+{{ .Chart.Name }}
+{{- end }}
+
+А потом их можно использовать в других шаблонах:
+
+metadata:
+  name: {{ include "nginx-app.name" . }}
+
+
+
+
+
+2. Как Helm работает при установке
+Когда ты выпонишь команду = >
+              helm install my-nginx ./nginx-app
+
+Helm делает следующее:
+	1.	Собирает шаблоны из templates/
+	2.	Подставляет все значения из values.yaml (и при необходимости из --set или другого файла)
+	3.	Рендерит YAML-манифесты
+	4.	Отправляет их в Kubernetes API, как будто ты сам выполнил kubectl apply -f ...
+
+
+Ты можешь увидеть “чистый” результат перед применением:  =>
+              helm template ./nginx-app
+
+
+3. Как всё взаимодействует (логическая цепочка)  =>
+              values.yaml → templates/*.yaml → helm template → готовые манифесты → kubectl apply
+
+              Если ты добавляешь свой ConfigMap, Secret, Deployment, Ingress и т.д. —
+              всё это просто дополнительные шаблоны, в которых ты используешь .Values для параметров.
+
+
+4. Что ты получаешь в итоге =>
+              После helm install nginx-app ./nginx-app Kubernetes получает:
+              	•	Deployment (с настройками контейнера, env, probes и т.д.)
+              	•	Service (который маппит порт 80 → Pod)
+              	•	Ingress (если включен в values)
+              	•	ConfigMap / Secret (если описаны)
+              	•	И всё это с динамическими именами, версиями, параметрами — под контролем Helm
+
+              Helm создаёт также Release — то есть он помнит, какие ресурсы были установлены.
+              Можно потом обновить:
+
+              helm upgrade nginx-app ./nginx-app
+
+              Или удалить
+              helm uninstall nginx-app
+
