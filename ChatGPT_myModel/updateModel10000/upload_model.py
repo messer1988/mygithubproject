@@ -1,13 +1,15 @@
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from huggingface_hub import HfApi, create_repo, upload_folder
 
-# Название твоей модели
-model_name = "devops-llm-10000"
-repo_name = "PythonDevops/devops-llm-10000"  # заменим, если хочешь другое имя
+repo_id = "PythonDevops/devops-llm-v2"  # новое имя, чтобы не перетирать старую
+local_path = "./final_model"
 
-# Загружаем токенизатор и модель из директории
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForCausalLM.from_pretrained(model_name)
+api = HfApi()
+create_repo(repo_id=repo_id, private=False, exist_ok=True)
 
-# Пушим на Hugging Face
-tokenizer.push_to_hub(repo_name)
-model.push_to_hub(repo_name)
+upload_folder(
+    repo_id=repo_id,
+    folder_path=local_path,
+    path_in_repo="."
+)
+
+print(f"✅ Uploaded {repo_id}")
