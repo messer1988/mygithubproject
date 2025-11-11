@@ -136,3 +136,4 @@ Helm делает следующее:
               Или удалить
               helm uninstall nginx-app
 
+
