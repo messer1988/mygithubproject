@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    HELM_RELEASE = "helm/nginx-app"
+    HELM_RELEASE = "helm.nginx-app"
     KUBE_NAMESPACE = "default"
   }
 
