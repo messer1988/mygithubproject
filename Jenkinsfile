@@ -18,7 +18,7 @@ pipeline {
       steps {
         withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
           sh """
-            /opt/homebrew/bin/helm upgrade --install $HELM_RELEASE ./helm/helm.nginx-app \
+            /opt/homebrew/bin/helm upgrade --install $HELM_RELEASE ./helm/nginx-app \
               --namespace $KUBE_NAMESPACE \
               --set image.repository=pythondevops/helm.nginx-app \
               --set image.tag=${BUILD_NUMBER}
