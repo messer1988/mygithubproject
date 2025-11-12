@@ -1,7 +1,7 @@
 replicaCount: 2
 
 image:
-  repository: nginx
+  repository: pythondevops/nginx-app
   tag: alpine           # нужен envsubst (есть в alpine)
   pullPolicy: IfNotPresent
 

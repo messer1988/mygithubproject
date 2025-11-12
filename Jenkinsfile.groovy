@@ -1,49 +1,99 @@
 pipeline {
-  agent any
+    agent any
 
-  environment {
-    HELM_RELEASE = "helm.nginx-app"
-    KUBE_NAMESPACE = "default"
-  }
-
-  stages {
-    stage('Build Docker Image') {
-      steps {
-        echo 'Сборка Docker-образа (опционально)...'
-        // здесь может быть docker build / push
-      }
+    environment {
+        HELM       = "/opt/homebrew/bin/helm"
+        KUBECTL    = "/opt/homebrew/bin/kubectl"
+        REGISTRY   = "docker.io"                           // Docker Hub
+        IMAGE_REPO = "pythondevops/nginx-app"              // замени на свой <login>/<repo>
+        IMAGE_TAG  = "${BUILD_NUMBER}"                     // тег сборки
+        LATEST_TAG = "latest"
+        CHART_PATH = "helm/nginx-app"
+        RELEASE    = "nginx-app"
+        NAMESPACE  = "default"
     }
 
-    stage('Deploy via Helm') {
-      steps {
-        withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
-            sh '''
-        /opt/homebrew/bin/helm upgrade --install nginx-app ./helm/nginx-app \
-          --namespace default \
-          --create-namespace \
-          --set fullnameOverride=nginx-app \
-          --set image.repository=pythondevops/nginx-app \
-          --set image.tag=${BUILD_NUMBER}
-      '''
+    stages {
+        stage('Checkout') {
+            steps {
+                checkout scm
+                sh 'pwd && ls -la && ls -R helm || true'
+            }
         }
-      }
-    }
 
-    stage('Verify Deployment') {
-      steps {
-        withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
-          sh '/opt/homebrew/bin/kubectl get pods -n default'
+        stage('Docker Login') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh """
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin ${REGISTRY}
+          """
+                }
+            }
         }
-      }
-    }
-  }
 
-  post {
-    success {
-      echo "✅ Деплой успешно выполнен!"
+        stage('Build & Push (multi-arch)') {
+            steps {
+                sh """
+          # гарантируем, что buildx включён
+          docker buildx create --name ci-builder --use || true
+          docker buildx inspect --bootstrap || true
+
+          # соберём и запушим образы под linux/amd64 (и можно добавить arm64 при желании)
+          docker buildx build \
+            --platform linux/amd64 \
+            -t ${IMAGE_REPO}:${IMAGE_TAG} \
+            -t ${IMAGE_REPO}:${LATEST_TAG} \
+            --push \
+            .
+        """
+            }
+        }
+
+        stage('Helm Deploy') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
+                    sh """
+            ${HELM} upgrade --install ${RELEASE} ${CHART_PATH} \
+              --namespace ${NAMESPACE} \
+              --create-namespace \
+              --set fullnameOverride=${RELEASE} \
+              --set image.repository=${IMAGE_REPO} \
+              --set image.tag=${IMAGE_TAG}
+          """
+                }
+            }
+        }
+
+        stage('Verify Rollout') {
+            steps {
+                withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
+                    sh """
+            ${KUBECTL} -n ${NAMESPACE} rollout status deployment/${RELEASE} --timeout=120s
+            ${KUBECTL} -n ${NAMESPACE} get deploy,po,svc -o wide
+          """
+                }
+            }
+        }
     }
-    failure {
-      echo "❌ Ошибка деплоя."
+
+    post {
+        success {
+            echo "✅ Deployed ${IMAGE_REPO}:${IMAGE_TAG} to ns=${NAMESPACE}"
+        }
+        failure {
+            echo "⚠️ Failure. Attempting cleanup (optional)."
+            script {
+                try {
+                    withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
+                        sh "${HELM} status ${RELEASE} -n ${NAMESPACE} >/dev/null 2>&1 && ${HELM} uninstall ${RELEASE} -n ${NAMESPACE} || true"
+                    }
+                } catch (err) {
+                    echo "Cleanup skipped: ${err}"
+                }
+            }
+        }
+        always {
+            sh 'docker logout || true'
+        }
     }
-  }
 }
