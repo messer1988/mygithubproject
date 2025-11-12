@@ -4,11 +4,11 @@ brew install helm
 Проверить версию helm
 helm version
 
-( создаем helm с названием nginx-app )
-helm create nginx-app
+( создаем helm с названием helm.nginx-app )
+helm create helm.nginx-app
 
-( переходим в  helm nginx-app )
-cd nginx-app
+( переходим в  helm helm.nginx-app )
+cd helm.nginx-app
 
 Удаляем лишние файлы из templates
 rm -f templates/hpa.yaml templates/serviceaccount.yaml templates/tests/test-connection.yaml templates/httproute.yaml 2>/dev/null
@@ -17,7 +17,7 @@ rm -f templates/hpa.yaml templates/serviceaccount.yaml templates/tests/test-conn
 1) Развернуть helm не перенося в него уже ранее настроенные ресурсы
 
 При разворачивании helm он автоматически создает ресурсы
-nginx-app/
+helm.nginx-app/
   Chart.yaml
   values.yaml
   templates/
@@ -66,8 +66,8 @@ env:
     DB_PASS: SuperSecret123
 
 Перед установкой Chart можно проверить конфиг шаблона
-helm template ./nginx-app
+helm template ./helm.nginx-app
 
 Установка Чарта
-helm install nginx-app .
+helm install helm.nginx-app .
 kubectl get pods,svc,ingress

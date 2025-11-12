@@ -6,7 +6,7 @@
 	2.	TLS-терминация (если включено)
 Ingress Controller (например, NGINX) принимает TCP 443, завершает TLS с использованием tls-секрета (сертификат/ключ).
 	3.	L7-маршрутизация по правилам Ingress
-Контроллер смотрит host/path и находит бэкенд: Service nginx-app порт 80.
+Контроллер смотрит host/path и находит бэкенд: Service helm.nginx-app порт 80.
 	4.	Service → kube-proxy → EndpointSlice
 Обращение к ClusterIP сервиса, а kube-proxy по таблицам iptables/ipvs перенаправляет к одному из IP Pod’ов в EndpointSlice (только готовые Pod’ы — см. readinessProbe).
 	5.	Pod / контейнеры

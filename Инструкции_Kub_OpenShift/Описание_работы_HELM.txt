@@ -1,10 +1,10 @@
 Command
-helm create nginx-app
+helm create helm.nginx-app
 Этой командой Helm создает шаблон приложения в котором все построено вокруг шаблонизации Yaml file :
 
 
 
-nginx-app/
+helm.nginx-app/
   Chart.yaml
   values.yaml
   templates/
@@ -18,7 +18,7 @@ Chart.yaml =>
 
 Пример Chart.yaml:
 apiVersion: v2
-name: nginx-app
+name: helm.nginx-app
 version: 0.1.0
 description: A Helm chart for Kubernetes
 
@@ -60,16 +60,16 @@ deployment.yaml Пример:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "nginx-app.fullname" . }}
+  name: {{ include "helm.nginx-app.fullname" . }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ include "nginx-app.name" . }}
+      app: {{ include "helm.nginx-app.name" . }}
   template:
     metadata:
       labels:
-        app: {{ include "nginx-app.name" . }}
+        app: {{ include "helm.nginx-app.name" . }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -85,14 +85,14 @@ _helpers.tpl =>
      Это файл с функциями и шаблонами-помощниками.
      Например, чтобы не писать длинные имена в каждом шаблоне, здесь определяют функции вроде:
 
-{{- define "nginx-app.name" -}}
+{{- define "helm.nginx-app.name" -}}
 {{ .Chart.Name }}
 {{- end }}
 
 А потом их можно использовать в других шаблонах:
 
 metadata:
-  name: {{ include "nginx-app.name" . }}
+  name: {{ include "helm.nginx-app.name" . }}
 
 
 
@@ -100,7 +100,7 @@ metadata:
 
 2. Как Helm работает при установке
 Когда ты выпонишь команду = >
-              helm install my-nginx ./nginx-app
+              helm install my-nginx ./helm.nginx-app
 
 Helm делает следующее:
 	1.	Собирает шаблоны из templates/
@@ -110,7 +110,7 @@ Helm делает следующее:
 
 
 Ты можешь увидеть “чистый” результат перед применением:  =>
-              helm template ./nginx-app
+              helm template ./helm.nginx-app
 
 
 3. Как всё взаимодействует (логическая цепочка)  =>
@@ -121,7 +121,7 @@ Helm делает следующее:
 
 
 4. Что ты получаешь в итоге =>
-              После helm install nginx-app ./nginx-app Kubernetes получает:
+              После helm install helm.nginx-app ./helm.nginx-app Kubernetes получает:
               	•	Deployment (с настройками контейнера, env, probes и т.д.)
               	•	Service (который маппит порт 80 → Pod)
               	•	Ingress (если включен в values)
@@ -131,9 +131,9 @@ Helm делает следующее:
               Helm создаёт также Release — то есть он помнит, какие ресурсы были установлены.
               Можно потом обновить:
 
-              helm upgrade nginx-app ./nginx-app
+              helm upgrade helm.nginx-app ./helm.nginx-app
 
               Или удалить
-              helm uninstall nginx-app
+              helm uninstall helm.nginx-app
 
 
