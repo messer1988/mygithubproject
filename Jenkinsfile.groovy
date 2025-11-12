@@ -70,20 +70,26 @@ pipeline {
                 script {
                     echo "🔢 Автообновление версии image.tag в Helm values.yaml..."
 
-                    // Определим путь к файлу values.yaml
+                    // Путь к файлу
                     def valuesFile = "helm/nginx-app/values.yaml"
 
-                    // Читаем текущий тег
-                    def currentTag = sh(script: "grep 'tag:' ${valuesFile} | awk '{print \$2}'", returnStdout: true).trim()
-                    def nextTag = (currentTag.toInteger() + 1).toString()
+                    // ✅ Берём только строку, начинающуюся с 'tag:'
+                    def currentTag = sh(script: "grep -E '^ *tag:' ${valuesFile} | awk '{print \$2}'", returnStdout: true).trim()
 
-                    // Обновляем тег в файле
+                    // Проверка на число
+                    if (!currentTag.isInteger()) {
+                        error("❌ Значение image.tag (${currentTag}) не является числом! Проверь файл values.yaml")
+                    }
+
+                    def nextTag = (currentTag.toInteger() + 1).toString()
+                    echo "✅ image.tag обновлён с ${currentTag} → ${nextTag}"
+
+                    // Обновляем файл
                     sh """
                 sed -i '' 's/tag: ${currentTag}/tag: ${nextTag}/' ${valuesFile}
-                echo "✅ image.tag обновлён с ${currentTag} → ${nextTag}"
             """
 
-                    // Коммитим и пушим изменения обратно в GitHub
+                    // Коммит и пуш
                     withCredentials([usernamePassword(credentialsId: 'UserGitClone', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
                         sh """
                     git config user.email "jenkins@ci.local"
@@ -94,7 +100,7 @@ pipeline {
                 """
                     }
 
-                    // Экспортируем новую версию в env для деплоя
+                    // Передаём новый тег в переменную окружения
                     env.IMAGE_TAG = nextTag
                 }
             }
