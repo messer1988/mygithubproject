@@ -65,6 +65,41 @@ pipeline {
             }
         }
 
+        stage('Auto Version Bump & Commit') {
+            steps {
+                script {
+                    echo "🔢 Автообновление версии image.tag в Helm values.yaml..."
+
+                    // Определим путь к файлу values.yaml
+                    def valuesFile = "helm/nginx-app/values.yaml"
+
+                    // Читаем текущий тег
+                    def currentTag = sh(script: "grep 'tag:' ${valuesFile} | awk '{print \$2}'", returnStdout: true).trim()
+                    def nextTag = (currentTag.toInteger() + 1).toString()
+
+                    // Обновляем тег в файле
+                    sh """
+                sed -i '' 's/tag: ${currentTag}/tag: ${nextTag}/' ${valuesFile}
+                echo "✅ image.tag обновлён с ${currentTag} → ${nextTag}"
+            """
+
+                    // Коммитим и пушим изменения обратно в GitHub
+                    withCredentials([usernamePassword(credentialsId: 'UserGitClone', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                        sh """
+                    git config user.email "jenkins@ci.local"
+                    git config user.name "Jenkins CI"
+                    git add ${valuesFile}
+                    git commit -m "🔄 Auto bump image.tag to ${nextTag}"
+                    git push https://${GIT_USER}:${GIT_TOKEN}@github.com/messer1988/mygithubproject.git HEAD:main
+                """
+                    }
+
+                    // Экспортируем новую версию в env для деплоя
+                    env.IMAGE_TAG = nextTag
+                }
+            }
+        }
+
         stage('Helm Deploy') {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
