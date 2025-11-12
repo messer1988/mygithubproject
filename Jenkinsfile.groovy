@@ -70,26 +70,29 @@ pipeline {
                 script {
                     echo "🔢 Автообновление версии image.tag в Helm values.yaml..."
 
-                    // Путь к файлу
+                    // Путь к values.yaml
                     def valuesFile = "helm/nginx-app/values.yaml"
 
-                    // ✅ Берём только строку, начинающуюся с 'tag:'
+                    // Берём строку, начинающуюся с tag:
                     def currentTag = sh(script: "grep -E '^ *tag:' ${valuesFile} | awk '{print \$2}'", returnStdout: true).trim()
+                    echo "📘 Текущий image.tag: ${currentTag}"
 
-                    // Проверка на число
-                    if (!currentTag.isInteger()) {
-                        error("❌ Значение image.tag (${currentTag}) не является числом! Проверь файл values.yaml")
+                    // Проверка: число или нет
+                    def nextTag
+                    if (currentTag.isInteger()) {
+                        nextTag = (currentTag.toInteger() + 1).toString()
+                        echo "✅ Найден числовой тег, обновляем ${currentTag} → ${nextTag}"
+                    } else {
+                        echo "⚠️ Тег '${currentTag}' не является числом, начинаем нумерацию с 1"
+                        nextTag = "1"
                     }
 
-                    def nextTag = (currentTag.toInteger() + 1).toString()
-                    echo "✅ image.tag обновлён с ${currentTag} → ${nextTag}"
-
-                    // Обновляем файл
+                    // Обновляем values.yaml
                     sh """
                 sed -i '' 's/tag: ${currentTag}/tag: ${nextTag}/' ${valuesFile}
             """
 
-                    // Коммит и пуш
+                    // Коммитим изменения в GitHub
                     withCredentials([usernamePassword(credentialsId: 'UserGitClone', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
                         sh """
                     git config user.email "jenkins@ci.local"
@@ -100,7 +103,7 @@ pipeline {
                 """
                     }
 
-                    // Передаём новый тег в переменную окружения
+                    // Сохраняем новую версию для Helm Deploy
                     env.IMAGE_TAG = nextTag
                 }
             }
