@@ -12,6 +12,13 @@ pipeline {
         RELEASE    = "nginx-app"
         NAMESPACE  = "default"
     }
+    parameters {
+        choise(name: 'DockerImage', choise: ['', 'nginx-app'], description: 'Выбор образа приложения из DockerHub')
+    }
+    options {
+        ansiColor('xterm')
+        timestamps()
+    }
 
     stages {
         stage('Checkout') {
