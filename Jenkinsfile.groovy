@@ -13,7 +13,7 @@ pipeline {
         NAMESPACE  = "default"
     }
     parameters {
-        choise(name: 'DockerImage', choise: ['', 'nginx-app'], description: 'Выбор образа приложения из DockerHub')
+        choice(name: 'DockerImage', choice: ['', 'nginx-app'], description: 'Выбор образа приложения из DockerHub')
     }
     options {
         ansiColor('xterm')
