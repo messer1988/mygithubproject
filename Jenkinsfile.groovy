@@ -93,7 +93,7 @@ pipeline {
             """
 
                     // Коммитим изменения в GitHub
-                    withCredentials([usernamePassword(credentialsId: 'UserGirPush', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
+                    withCredentials([usernamePassword(credentialsId: 'UserGitPush', usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
                         sh """
                     git config user.email "jenkins@ci.local"
                     git config user.name "Jenkins CI"
