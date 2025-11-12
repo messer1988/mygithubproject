@@ -20,7 +20,7 @@ pipeline {
           sh """
             /opt/homebrew/bin/helm upgrade --install $HELM_RELEASE ./helm/nginx-app \
               --namespace $KUBE_NAMESPACE \
-              --set image.repository=pythondevops/helm.nginx-app \
+              --set image.repository=pythondevops/helm/nginx-app \
               --set image.tag=${BUILD_NUMBER}
           """
         }
