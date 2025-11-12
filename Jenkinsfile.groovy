@@ -41,17 +41,19 @@ pipeline {
         stage('Build & Push (multi-arch)') {
             steps {
                 sh """
-          # гарантируем, что buildx включён
-          docker buildx create --name ci-builder --use || true
-          docker buildx inspect --bootstrap || true
+          echo "🧱 Инициализация buildx builder..."
+          docker buildx rm ci-builder || true
+          docker buildx create --name ci-builder --driver docker-container --use
+          docker buildx inspect --bootstrap
 
-          # соберём и запушим образы под linux/amd64 (и можно добавить arm64 при желании)
+          echo "🚀 Сборка multi-arch образа (linux/amd64 + linux/arm64)..."
           docker buildx build \
-            --platform linux/amd64 \
+            --platform linux/amd64,linux/arm64 \
             -t ${IMAGE_REPO}:${IMAGE_TAG} \
             -t ${IMAGE_REPO}:${LATEST_TAG} \
-            --push \
-            .
+            --push .
+
+          echo "✅ Multi-arch образ успешно собран и запушен!"
         """
             }
         }
