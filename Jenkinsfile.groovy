@@ -75,7 +75,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
                     sh """
-            ${KUBECTL} -n ${NAMESPACE} rollout status deployment/${RELEASE} --timeout=120s
+            ${KUBECTL} -n ${NAMESPACE} rollout status deployment/${RELEASE} --timeout=300s
             ${KUBECTL} -n ${NAMESPACE} get deploy,po,svc -o wide
           """
                 }
