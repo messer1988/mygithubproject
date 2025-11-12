@@ -20,6 +20,13 @@ pipeline {
                 sh 'pwd && ls -la && ls -R helm || true'
             }
         }
+        stage('Debug Docker') {
+            steps {
+                sh 'echo "PATH=$PATH"'
+                sh 'which docker || echo "docker not found"'
+                sh 'docker version || echo "docker CLI not available"'
+            }
+        }
 
         stage('Docker Login') {
             steps {
