@@ -5,7 +5,7 @@ pipeline {
         HELM       = "/opt/homebrew/bin/helm"
         KUBECTL    = "/opt/homebrew/bin/kubectl"
         REGISTRY   = "docker.io"                           // Docker Hub
-        IMAGE_REPO = "pythondevops/nginx-app"              // замени на свой <login>/<repo>
+        IMAGE_REPO = "python1988/nginx-app"              // замени на свой <login>/<repo>
         IMAGE_TAG  = "${BUILD_NUMBER}"                     // тег сборки
         LATEST_TAG = "latest"
         CHART_PATH = "helm/nginx-app"
