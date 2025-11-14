@@ -10,10 +10,16 @@ service:
 
 ingress:
   enabled: true
-  host: nginx.local
+  hosts:
+    - host: nginx.local
+      paths:
+        - path: /
+          pathType: Prefix
+
   tls:
-    enabled: true
-    secretName: nginx-tls   # используем уже созданный TLS Secret
+    - secretName: nginx-tls
+      hosts:
+        - nginx.local
 
 env:
   config:

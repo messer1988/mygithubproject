@@ -109,6 +109,26 @@ pipeline {
             }
         }
 
+        stage('Generate TLS with mkcert') {
+            steps {
+                sh """
+          echo '🔐 Генерация TLS сертификата nginx.local через mkcert...'
+
+          # создаём сертификаты в каталоге ./tls
+          mkdir -p tls
+          mkcert -cert-file tls/nginx.local.pem -key-file tls/nginx.local-key.pem nginx.local
+
+          echo '📦 Создание TLS Secret в Kubernetes...'
+          kubectl -n default delete secret nginx-tls --ignore-not-found=true
+          kubectl -n default create secret tls nginx-tls \
+              --cert=tls/nginx.local.pem \
+              --key=tls/nginx.local-key.pem
+
+          echo '✅ TLS сертификат и Secret обновлены.'
+        """
+            }
+        }
+
         stage('Helm Deploy') {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {

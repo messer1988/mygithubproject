@@ -147,5 +147,9 @@ kubectl get pods -A
 kubectl delete pod helm.nginx-app-7bd47c68fc-dxtws -n default
 kubectl delete pod helm.nginx-app-7bd47c68fc-s9bp6 -n default
 
+Если мы выполняли какие либо изменения в helm то обязательно
+2️⃣ Теперь запускаем Helm upgrade правильно:
+helm upgrade --install nginx-app helm/nginx-app -n default
+
 
 
