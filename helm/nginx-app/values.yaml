@@ -2,18 +2,29 @@ replicaCount: 2
 
 image:
   repository: python1988/nginx-app
-  tag: 61
+  tag: 61           # нужен envsubst (есть в alpine)
   pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
   port: 80
 
 ingress:
   enabled: true
-  className: "nginx"
-  host: nginx.local
+  hosts:
+    - host: nginx.local
+      paths:
+        - path: /
+          pathType: Prefix
 
   tls:
-    enabled: true
-    secretName: nginx-tls
+    - secretName: nginx-tls
+      hosts:
+        - nginx.local
+
+env:
+  config:
+    APP_ENV: production
+    WELCOME_MSG: "Hello from ConfigMap"
+  secret:
+    DB_USER: admin
+    DB_PASS: SuperSecret123
