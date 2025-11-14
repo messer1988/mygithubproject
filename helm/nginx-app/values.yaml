@@ -17,3 +17,8 @@ ingress:
   tls:
     enabled: true
     secretName: nginx-tls
+
+env:
+  secret:
+    username: ""
+    password: ""
