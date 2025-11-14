@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: python1988/nginx-app
-  tag: 61
+  tag: 62
   pullPolicy: IfNotPresent
 
 service:
