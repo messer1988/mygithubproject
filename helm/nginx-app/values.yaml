@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: python1988/nginx-app
-  tag: 9           # нужен envsubst (есть в alpine)
+  tag: 10           # нужен envsubst (есть в alpine)
   pullPolicy: IfNotPresent
 
 service:
