@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "helm.nginx-app.fullname" . }}
+  name: {{ include "nginx-app.fullname" . }}
   labels:
-    {{- include "helm.nginx-app.labels" . | nindent 4 }}
+    {{- include "nginx-app.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "helm.nginx-app.selectorLabels" . | nindent 6 }}
+      {{- include "nginx-app.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "helm.nginx-app.selectorLabels" . | nindent 8 }}
+        {{- include "nginx-app.selectorLabels" . | nindent 8 }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
@@ -22,9 +22,9 @@ spec:
           # подтягиваем ENV из ConfigMap и Secret
           envFrom:
             - configMapRef:
-                name: {{ include "helm.nginx-app.fullname" . }}-config
+                name: {{ include "nginx-app.fullname" . }}-config
             - secretRef:
-                name: {{ include "helm.nginx-app.fullname" . }}-secret
+                name: {{ include "nginx-app.fullname" . }}-secret
 
           # монтируем шаблон конфига как файл во временный путь
           volumeMounts:
@@ -65,5 +65,5 @@ spec:
       volumes:
         - name: nginx-template
           configMap:
-            name: {{ include "helm.nginx-app.fullname" . }}-template
+            name: {{ include "nginx-app.fullname" . }}-template
 
