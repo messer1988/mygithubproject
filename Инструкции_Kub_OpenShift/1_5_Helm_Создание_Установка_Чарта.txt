@@ -69,5 +69,5 @@ env:
 helm template ./helm.nginx-app
 
 Установка Чарта
-helm install helm.nginx-app .
+helm install nginx-app .
 kubectl get pods,svc,ingress

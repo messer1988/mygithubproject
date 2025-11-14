@@ -1,0 +1,151 @@
+minikube start --driver=docker  обязательно должен быть запущен с --driver=docker
+kubectl get nodes ( Проверка работоспособности control-plane
+Проверка работаты Ingress
+
+minikube addons enable ingress
+kubectl -n ingress-nginx get pods
+
+
+minikube status
+
+Успешный ответ!
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+
+kubectl cluster-info
+Успешный ответ!
+
+Kubernetes control plane is running at https://127.0.0.1:53549
+CoreDNS is running at https://127.0.0.1:53549/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+kubectl get pods -A
+
+mac@macs-MacBook-Pro mygithubproject % kubectl get pods -A
+NAMESPACE              NAME                                         READY   STATUS      RESTARTS       AGE
+default                nginx-app-6c64c46fcf-6vsnz                   1/1     Running     0              12m
+default                nginx-app-6c64c46fcf-zpbck                   1/1     Running     0              12m
+ingress-nginx          ingress-nginx-admission-create-w9szj         0/1     Completed   0              83m
+ingress-nginx          ingress-nginx-admission-patch-gs66v          0/1     Completed   0              83m
+ingress-nginx          ingress-nginx-controller-9cc49f96f-9rhx4     1/1     Running     0              83m
+kube-system            coredns-66bc5c9577-tvzg6                     1/1     Running     0              104m
+kube-system            etcd-minikube                                1/1     Running     0              104m
+kube-system            kube-apiserver-minikube                      1/1     Running     0              104m
+kube-system            kube-controller-manager-minikube             1/1     Running     0              104m
+kube-system            kube-proxy-2vfz7                             1/1     Running     0              104m
+kube-system            kube-scheduler-minikube                      1/1     Running     0              104m
+kube-system            storage-provisioner                          1/1     Running     1 (103m ago)   104m
+kubernetes-dashboard   dashboard-metrics-scraper-77bf4d6c4c-fqvhb   1/1     Running     0              85m
+kubernetes-dashboard   kubernetes-dashboard-855c9754f9-rstm4        1/1     Running     0              85m
+
+
+helm version
+version.BuildInfo{Version:"v3.19.0", GitCommit:"3d8990f0836691f0229297773f3524598f46bda6", GitTreeState:"clean", GoVersion:"go1.25.1"}
+kubectl get ns
+
+NAME                   STATUS   AGE
+default                Active   34m
+ingress-nginx          Active   12m
+kube-node-lease        Active   34m
+kube-public            Active   34m
+kube-system            Active   34m
+kubernetes-dashboard   Active   15m
+
+проверить конфиг шаблона
+helm template ./helm.nginx-app
+
+Установка Чарта
+helm install nginx-app .
+kubectl get pods,svc,ingress
+
+
+Python, отлично — кластер живой, kube-system в норме, ingress-nginx тоже работает.
+Проблема только одна:
+
+❌ Все твои приложения в STATUS: ImagePullBackOff
+
+А это означает только одно:
+
+▶️ Kubernetes НЕ МОЖЕТ СКАЧАТЬ ОБРАЗ
+
+python1988/nginx-app:<tag>
+ни в одном деплойменте.
+
+⸻
+
+💥 Почему так происходит?
+
+Причины бывают только 3:
+
+1️⃣ Docker Hub rate limit / блокировка
+2️⃣ Нет manifest для твоего тега
+3️⃣ В values.yaml сохраняется старое значение image.tag
+
+И я уже вижу корень:
+Твои поды тянут не те теги, которые собрал Jenkins.
+
+Например, ты сейчас отправил:
+python1988/nginx-app:51
+
+А в кластере у тебя частично висят:
+nginx-app:865c85f87f
+helm.nginx-app:7bd47c68fc
+
+
+mac@macs-MacBook-Pro nginx-app % kubectl get pods -A
+NAMESPACE              NAME                                         READY   STATUS             RESTARTS      AGE
+default                helm.nginx-app-7bd47c68fc-dxtws              0/1     ImagePullBackOff   0             19m
+default                helm.nginx-app-7bd47c68fc-s9bp6              0/1     ImagePullBackOff   0             19m
+default                nginx-app-865c85f87f-jl2l7                   0/1     ImagePullBackOff   0             18m
+default                nginx-app-865c85f87f-rh89j                   0/1     ImagePullBackOff   0             18m
+ingress-nginx          ingress-nginx-admission-create-w9szj         0/1     Completed          0             12m
+ingress-nginx          ingress-nginx-admission-patch-gs66v          0/1     Completed          0             12m
+ingress-nginx          ingress-nginx-controller-9cc49f96f-9rhx4     1/1     Running            0             12m
+kube-system            coredns-66bc5c9577-tvzg6                     1/1     Running            0             33m
+kube-system            etcd-minikube                                1/1     Running            0             33m
+kube-system            kube-apiserver-minikube                      1/1     Running            0             33m
+kube-system            kube-controller-manager-minikube             1/1     Running            0             33m
+kube-system            kube-proxy-2vfz7                             1/1     Running            0             33m
+kube-system            kube-scheduler-minikube                      1/1     Running            0             33m
+kube-system            storage-provisioner                          1/1     Running            1 (32m ago)   33m
+kubernetes-dashboard   dashboard-metrics-scraper-77bf4d6c4c-fqvhb   1/1     Running            0             14m
+kubernetes-dashboard   kubernetes-dashboard-855c9754f9-rstm4        1/1     Running            0             14m
+
+📌 ШАГ 1 — Проверяем, какие образы реально есть в Docker Hub
+docker pull python1988/nginx-app:latest
+docker pull python1988/nginx-app:37
+docker pull python1988/nginx-app:51
+
+
+📌 ШАГ 2 — Проверяем, какие образы пытается качать кластер
+kubectl describe pod nginx-app-6c64c46fcf-6vsnz -n default | grep Image:
+
+Вывод:
+Image:         python1988/nginx-app:58
+
+
+📌 ШАГ 3 — Проверим values.yaml в кластере
+
+helm get values nginx-app -n default
+Вывод:
+USER-SUPPLIED VALUES:
+fullnameOverride: nginx-app
+image:
+  repository: python1988/nginx-app
+  tag: 58
+
+📌 ШАГ 4 — Проверим корректность kubeconfig, который использует Helm в Jenkins
+export KUBECONFIG=/Users/mac/.jenkins/workspace/helm/kubeconfig
+kubectl get pods -A
+
+
+🔥 Команда №1: удалить старый Deployment
+kubectl delete pod helm.nginx-app-7bd47c68fc-dxtws -n default
+kubectl delete pod helm.nginx-app-7bd47c68fc-s9bp6 -n default
+
+
+
