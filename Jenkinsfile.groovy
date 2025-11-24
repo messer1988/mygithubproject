@@ -27,6 +27,17 @@ pipeline {
                 sh 'pwd && ls -la && ls -R helm || true'
             }
         }
+        stage('Checkout_Cluster'){
+            steps {
+                sh 'kubectl get nodes' //проверка работы Control Panel
+                sh 'kubectl -n ingress-nginx get pods' // проверка работы ingress
+                sh 'minikube status'
+                sh 'kubectl get pods -A' //Вывести статус всех Pod
+                sh 'helm version'
+                sh 'kubectl cluster-info'
+
+            }
+        }
         stage('Debug Docker') {
             steps {
                 sh 'echo "PATH=$PATH"'
