@@ -16,7 +16,7 @@ pipeline {
         choice(name: 'DockerImage', choices: ['', 'nginx-app'], description: 'Выбор образа приложения из DockerHub')
     }
     options {
-        ansiColor('xterm')
+        //ansiColor('xterm')
         timestamps()
     }
 
