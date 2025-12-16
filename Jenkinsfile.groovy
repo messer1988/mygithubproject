@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+     /********************************************************************
+     * 🌍 GLOBAL ENV
+     ********************************************************************/
     environment {
         HELM       = "/opt/homebrew/bin/helm"
         KUBECTL    = "/opt/homebrew/bin/kubectl"
@@ -12,6 +14,10 @@ pipeline {
         RELEASE    = "nginx-app"
         NAMESPACE  = "default"
     }
+
+    /********************************************************************
+     * 🌍 GLOBAL ENV
+     *********************************************************************/
     parameters {
         choice(name: 'DockerImage', choices: ['', 'nginx-app'], description: 'Выбор образа приложения из DockerHub')
     }
