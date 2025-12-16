@@ -35,6 +35,7 @@ pipeline {
          ******************************************************************/
         stage('Checkout') {
             steps {
+                echo '\033[35m============ CHECKOUT SOURCE ===============\033[0m'
                 checkout scm
                 sh 'pwd && ls -la && ls -R helm || true'
             }
@@ -44,6 +45,7 @@ pipeline {
          ******************************************************************/
         stage('Checkout_Cluster'){
             steps {
+                echo '\033[35m============ CLUSTER HEALTHCHECK (INFO) ===============\033[0m'
                 sh 'kubectl get nodes' //проверка работы Control Panel
                 sh 'kubectl -n ingress-nginx get pods' // проверка работы ingress
                 sh 'minikube status'
@@ -58,6 +60,7 @@ pipeline {
          ******************************************************************/
         stage('Debug Docker') {
             steps {
+                echo '\033[35m============ DOCKER DEBUG ===============\033[0m'
                 sh 'echo "PATH=$PATH"'
                 sh 'which docker || echo "docker not found"'
                 sh 'docker version || echo "docker CLI not available"'
@@ -69,6 +72,7 @@ pipeline {
          ******************************************************************/
         stage('Docker Login') {
             steps {
+                echo '\033[35m============ DOCKER LOGIN ===============\033[0m'
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     sh """
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin ${REGISTRY}
@@ -81,6 +85,7 @@ pipeline {
          ******************************************************************/
         stage('Build & Push (multi-arch)') {
             steps {
+                echo '\033[35m============ BUILD & PUSH (MULTI-ARCH) ===============\033[0m'
                 sh """
           echo "🧱 Инициализация buildx builder..."
           docker buildx rm ci-builder || true
@@ -103,6 +108,7 @@ pipeline {
          ******************************************************************/
         stage('Auto Version Bump & Commit') {
             steps {
+                echo '\033[35m============ AUTO VERSION BUMP + COMMIT (values.yaml) ===============\033[0m'
                 script {
                     echo "🔢 Автообновление версии image.tag в Helm values.yaml..."
 
@@ -149,6 +155,7 @@ pipeline {
          ******************************************************************/
         stage('Generate TLS with mkcert') {
             steps {
+                echo '\033[35m============ TLS GENERATION (mkcert → secret nginx-tls) ===============\033[0m'
                 sh """
           echo '🔐 Генерация TLS сертификата nginx.local через mkcert...'
 
@@ -171,6 +178,7 @@ pipeline {
          ******************************************************************/
         stage('Helm Deploy') {
             steps {
+                echo '\033[35m============ HELM DEPLOY ===============\033[0m'
                 withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
                     sh """
             ${HELM} upgrade --install ${RELEASE} ${CHART_PATH} \
@@ -188,6 +196,7 @@ pipeline {
          ******************************************************************/
         stage('Verify Rollout') {
             steps {
+                echo '\033[35m============ VERIFY ROLLOUT ===============\033[0m'
                 withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
                     sh """
             ${KUBECTL} -n ${NAMESPACE} rollout status deployment/${RELEASE} --timeout=300s
