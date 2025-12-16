@@ -27,6 +27,9 @@ pipeline {
     }
 
     stages {
+        /******************************************************************
+         * 📦 1) CHECKOUT SOURCE
+         ******************************************************************/
         stage('Checkout') {
             steps {
                 checkout scm
@@ -34,6 +37,9 @@ pipeline {
             }
         }
         stage('Checkout_Cluster'){
+            /******************************************************************
+             * 🧭 2) CLUSTER HEALTHCHECK (INFO)
+             ******************************************************************/
             steps {
                 sh 'kubectl get nodes' //проверка работы Control Panel
                 sh 'kubectl -n ingress-nginx get pods' // проверка работы ingress
