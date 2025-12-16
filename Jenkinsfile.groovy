@@ -36,10 +36,10 @@ pipeline {
                 sh 'pwd && ls -la && ls -R helm || true'
             }
         }
+        /******************************************************************
+         * 🧭 2) CLUSTER HEALTHCHECK (INFO)
+         ******************************************************************/
         stage('Checkout_Cluster'){
-            /******************************************************************
-             * 🧭 2) CLUSTER HEALTHCHECK (INFO)
-             ******************************************************************/
             steps {
                 sh 'kubectl get nodes' //проверка работы Control Panel
                 sh 'kubectl -n ingress-nginx get pods' // проверка работы ingress
@@ -50,6 +50,9 @@ pipeline {
 
             }
         }
+        /******************************************************************
+         * 🐳 3) DOCKER DEBUG
+         ******************************************************************/
         stage('Debug Docker') {
             steps {
                 sh 'echo "PATH=$PATH"'
@@ -58,6 +61,9 @@ pipeline {
             }
         }
 
+        /******************************************************************
+         * 🔐 4) DOCKER LOGIN
+         ******************************************************************/
         stage('Docker Login') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
@@ -67,7 +73,9 @@ pipeline {
                 }
             }
         }
-
+        /******************************************************************
+         * 🏗️ 5) BUILD & PUSH (MULTI-ARCH)
+         ******************************************************************/
         stage('Build & Push (multi-arch)') {
             steps {
                 sh """
@@ -87,7 +95,9 @@ pipeline {
         """
             }
         }
-
+        /******************************************************************
+         * 🔢 6) AUTO VERSION BUMP + COMMIT (values.yaml)
+         ******************************************************************/
         stage('Auto Version Bump & Commit') {
             steps {
                 script {
@@ -131,7 +141,9 @@ pipeline {
                 }
             }
         }
-
+        /******************************************************************
+         * 🔐 7) TLS GENERATION (mkcert → secret nginx-tls)
+         ******************************************************************/
         stage('Generate TLS with mkcert') {
             steps {
                 sh """
@@ -151,7 +163,9 @@ pipeline {
         """
             }
         }
-
+        /******************************************************************
+         * ⛵ 8) HELM DEPLOY
+         ******************************************************************/
         stage('Helm Deploy') {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
@@ -166,7 +180,9 @@ pipeline {
                 }
             }
         }
-
+        /******************************************************************
+         * ✅ 9) VERIFY ROLLOUT
+         ******************************************************************/
         stage('Verify Rollout') {
             steps {
                 withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
@@ -178,7 +194,9 @@ pipeline {
             }
         }
     }
-
+    /********************************************************************
+     * 🧹 POST
+     ********************************************************************/
     post {
         success {
             echo "✅ Deployed ${IMAGE_REPO}:${IMAGE_TAG} to ns=${NAMESPACE}"
