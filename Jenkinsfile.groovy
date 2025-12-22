@@ -293,25 +293,25 @@ pipeline {
         /********************************************************************
          * 🧹 POST
          ********************************************************************/
-        post {
-            success {
-                echo "✅ Deployed ${IMAGE_REPO}:${IMAGE_TAG} to ns=${NAMESPACE}"
-            }
-            failure {
-                echo "⚠️ Failure. Attempting cleanup (optional)."
-                script {
-                    try {
-                        withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
-                            sh "${HELM} status ${RELEASE} -n ${NAMESPACE} >/dev/null 2>&1 && ${HELM} uninstall ${RELEASE} -n ${NAMESPACE} || true"
-                        }
-                    } catch (err) {
-                        echo "Cleanup skipped: ${err}"
+    }
+    post {
+        success {
+            echo "✅ Deployed ${IMAGE_REPO}:${IMAGE_TAG} to ns=${NAMESPACE}"
+        }
+        failure {
+            echo "⚠️ Failure. Attempting cleanup (optional)."
+            script {
+                try {
+                    withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
+                        sh "${HELM} status ${RELEASE} -n ${NAMESPACE} >/dev/null 2>&1 && ${HELM} uninstall ${RELEASE} -n ${NAMESPACE} || true"
                     }
+                } catch (err) {
+                    echo "Cleanup skipped: ${err}"
                 }
             }
-            always {
-                sh 'docker logout || true'
-            }
+        }
+        always {
+            sh 'docker logout || true'
         }
     }
 }
