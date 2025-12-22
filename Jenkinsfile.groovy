@@ -1,23 +1,23 @@
 pipeline {
     agent any
-     /********************************************************************
+    /********************************************************************
      * 🌍 GLOBAL ENV
      ********************************************************************/
     environment {
-        HELM       = "/opt/homebrew/bin/helm"
-        KUBECTL    = "/opt/homebrew/bin/kubectl"
-        REGISTRY   = "docker.io"                           // Docker Hub
+        HELM = "/opt/homebrew/bin/helm"
+        KUBECTL = "/opt/homebrew/bin/kubectl"
+        REGISTRY = "docker.io"                           // Docker Hub
         IMAGE_REPO = "python1988/nginx-app"              // замени на свой <login>/<repo>
-        IMAGE_TAG  = "${BUILD_NUMBER}"                     // тег сборки
+        IMAGE_TAG = "${BUILD_NUMBER}"                     // тег сборки
         LATEST_TAG = "latest"
         CHART_PATH = "helm/nginx-app"
-        RELEASE    = "nginx-app"
-        NAMESPACE  = "default"
-        ISTIO_NS    = "istio-system"
-        ISTIO_VER   = "1.23.2"          // зафиксируй версию (пример)
-        ISTIO_REPO  = "https://istio-release.storage.googleapis.com/charts"
-        APP_NS      = "default"
-        DOMAIN      = "nginx.local"
+        RELEASE = "nginx-app"
+        NAMESPACE = "default"
+        ISTIO_NS = "istio-system"
+        ISTIO_VER = "1.23.2"          // зафиксируй версию (пример)
+        ISTIO_REPO = "https://istio-release.storage.googleapis.com/charts"
+        APP_NS = "default"
+        DOMAIN = "nginx.local"
     }
 
     /********************************************************************
@@ -48,7 +48,7 @@ pipeline {
         /******************************************************************
          * 🧭 2) CLUSTER HEALTHCHECK (INFO)
          ******************************************************************/
-        stage('Checkout_Cluster'){
+        stage('Checkout_Cluster') {
             steps {
                 echo '\033[35m============ CLUSTER HEALTHCHECK (INFO) ===============\033[0m'
                 sh 'kubectl get nodes' //проверка работы Control Panel
@@ -290,27 +290,28 @@ pipeline {
                 }
             }
         }
-    /********************************************************************
-     * 🧹 POST
-     ********************************************************************/
-    post {
-        success {
-            echo "✅ Deployed ${IMAGE_REPO}:${IMAGE_TAG} to ns=${NAMESPACE}"
-        }
-        failure {
-            echo "⚠️ Failure. Attempting cleanup (optional)."
-            script {
-                try {
-                    withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
-                        sh "${HELM} status ${RELEASE} -n ${NAMESPACE} >/dev/null 2>&1 && ${HELM} uninstall ${RELEASE} -n ${NAMESPACE} || true"
+        /********************************************************************
+         * 🧹 POST
+         ********************************************************************/
+        post {
+            success {
+                echo "✅ Deployed ${IMAGE_REPO}:${IMAGE_TAG} to ns=${NAMESPACE}"
+            }
+            failure {
+                echo "⚠️ Failure. Attempting cleanup (optional)."
+                script {
+                    try {
+                        withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
+                            sh "${HELM} status ${RELEASE} -n ${NAMESPACE} >/dev/null 2>&1 && ${HELM} uninstall ${RELEASE} -n ${NAMESPACE} || true"
+                        }
+                    } catch (err) {
+                        echo "Cleanup skipped: ${err}"
                     }
-                } catch (err) {
-                    echo "Cleanup skipped: ${err}"
                 }
             }
-        }
-        always {
-            sh 'docker logout || true'
+            always {
+                sh 'docker logout || true'
+            }
         }
     }
 }
