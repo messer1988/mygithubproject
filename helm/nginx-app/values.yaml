@@ -10,7 +10,7 @@ service:
   port: 80
 
 ingress:
-  enabled: true
+  enabled: false
   className: "nginx"
   host: nginx.local
 
@@ -22,3 +22,12 @@ env:
   secret:
     username: ""
     password: ""
+
+istio:
+  enabled: true
+
+  gateway:
+    hosts:
+      - nginx.local
+    tls:
+      credentialName: nginx-tls
