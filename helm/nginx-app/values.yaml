@@ -2,7 +2,7 @@ replicaCount: 2
 
 image:
   repository: python1988/nginx-app
-  tag: 82
+  tag: 78
   pullPolicy: IfNotPresent
 
 service:
@@ -10,7 +10,7 @@ service:
   port: 80
 
 ingress:
-  enabled: false
+  enabled: true
   className: "nginx"
   host: nginx.local
 
@@ -25,7 +25,6 @@ env:
 
 istio:
   enabled: true
-
   gateway:
     hosts:
       - nginx.local
