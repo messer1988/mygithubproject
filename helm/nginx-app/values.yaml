@@ -22,11 +22,3 @@ env:
   secret:
     username: ""
     password: ""
-
-istio:
-  enabled: true
-  gateway:
-    hosts:
-      - nginx.local
-    tls:
-      credentialName: nginx-tls

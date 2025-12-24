@@ -1,23 +1,18 @@
 pipeline {
     agent any
-    /********************************************************************
+     /********************************************************************
      * 🌍 GLOBAL ENV
      ********************************************************************/
     environment {
-        HELM = "/opt/homebrew/bin/helm"
-        KUBECTL = "/opt/homebrew/bin/kubectl"
-        REGISTRY = "docker.io"                           // Docker Hub
+        HELM       = "/opt/homebrew/bin/helm"
+        KUBECTL    = "/opt/homebrew/bin/kubectl"
+        REGISTRY   = "docker.io"                           // Docker Hub
         IMAGE_REPO = "python1988/nginx-app"              // замени на свой <login>/<repo>
-        IMAGE_TAG = "${BUILD_NUMBER}"                     // тег сборки
+        IMAGE_TAG  = "${BUILD_NUMBER}"                     // тег сборки
         LATEST_TAG = "latest"
         CHART_PATH = "helm/nginx-app"
-        RELEASE = "nginx-app"
-        NAMESPACE = "default"
-        ISTIO_NS = "istio-system"
-        ISTIO_VER = "1.23.2"          // зафиксируй версию (пример)
-        ISTIO_REPO = "https://istio-release.storage.googleapis.com/charts"
-        APP_NS = "default"
-        DOMAIN = "nginx.local"
+        RELEASE    = "nginx-app"
+        NAMESPACE  = "default"
     }
 
     /********************************************************************
@@ -48,7 +43,7 @@ pipeline {
         /******************************************************************
          * 🧭 2) CLUSTER HEALTHCHECK (INFO)
          ******************************************************************/
-        stage('Checkout_Cluster') {
+        stage('Checkout_Cluster'){
             steps {
                 echo '\033[35m============ CLUSTER HEALTHCHECK (INFO) ===============\033[0m'
                 sh 'kubectl get nodes' //проверка работы Control Panel
@@ -58,76 +53,6 @@ pipeline {
                 sh 'helm version'
                 sh 'kubectl cluster-info'
 
-            }
-        }
-        stage('Install Istio') {
-            steps {
-                withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
-                    sh """
-        set -e
-
-        echo "📌 Add/Update istio helm repo"
-        ${HELM} repo add istio ${ISTIO_REPO} >/dev/null 2>&1 || true
-        ${HELM} repo update >/dev/null
-
-        echo "📦 Create namespace ${ISTIO_NS}"
-        ${KUBECTL} get ns ${ISTIO_NS} >/dev/null 2>&1 || ${KUBECTL} create ns ${ISTIO_NS}
-
-        echo "🧱 Install/Upgrade istio-base"
-        ${HELM} upgrade --install istio-base istio/base \\
-          -n ${ISTIO_NS} \\
-          --version ${ISTIO_VER} \\
-          --wait
-
-        echo "🧠 Install/Upgrade istiod"
-        ${HELM} upgrade --install istiod istio/istiod \\
-          -n ${ISTIO_NS} \\
-          --version ${ISTIO_VER} \\
-          --wait
-
-        echo "🚪 Install/Upgrade istio-ingressgateway"
-        ${HELM} upgrade --install istio-ingressgateway istio/gateway \\
-          -n ${ISTIO_NS} \\
-          --version ${ISTIO_VER} \\
-          --wait
-
-        echo "✅ Istio installed"
-        ${KUBECTL} -n ${ISTIO_NS} get pods -o wide
-      """
-                }
-            }
-        }
-        stage('Enable Sidecar Injection') {
-            steps {
-                withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
-                    sh """
-        set -e
-        echo "🏷️ Enable injection on namespace ${APP_NS}"
-        ${KUBECTL} label namespace ${APP_NS} istio-injection=enabled --overwrite
-        ${KUBECTL} get ns ${APP_NS} --show-labels
-      """
-                }
-            }
-        }
-        stage('TLS (mkcert) for Istio Gateway') {
-            steps {
-                withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
-                    sh """
-        set -e
-
-        echo "🔐 mkcert for ${DOMAIN}"
-        mkdir -p tls
-        mkcert -cert-file tls/${DOMAIN}.pem -key-file tls/${DOMAIN}-key.pem ${DOMAIN}
-
-        echo "📦 Create/Replace TLS secret in ${ISTIO_NS}"
-        ${KUBECTL} -n ${ISTIO_NS} delete secret nginx-tls --ignore-not-found=true
-        ${KUBECTL} -n ${ISTIO_NS} create secret tls nginx-tls \\
-          --cert=tls/${DOMAIN}.pem \\
-          --key=tls/${DOMAIN}-key.pem
-
-        ${KUBECTL} -n ${ISTIO_NS} get secret nginx-tls
-      """
-                }
             }
         }
         /******************************************************************
@@ -251,49 +176,39 @@ pipeline {
         /******************************************************************
          * ⛵ 8) HELM DEPLOY
          ******************************************************************/
-        stage('Helm Deploy App (Istio)') {
+        stage('Helm Deploy') {
             steps {
+                echo '\033[35m============ HELM DEPLOY ===============\033[0m'
                 withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
                     sh """
-        set -e
-        ${HELM} upgrade --install ${RELEASE} ${CHART_PATH} \\
-          --namespace ${NAMESPACE} \\
-          --create-namespace \\
-          --set fullnameOverride=${RELEASE} \\
-          --set image.repository=${IMAGE_REPO} \\
-          --set image.tag=${IMAGE_TAG} \\
-          --set ingress.enabled=false \\
-          --set istio.enabled=true \\
-          --set istio.gateway.hosts[0]=${DOMAIN} \\
-          --set istio.gateway.tls.credentialName=nginx-tls
-      """
+            ${HELM} upgrade --install ${RELEASE} ${CHART_PATH} \
+              --namespace ${NAMESPACE} \
+              --create-namespace \
+              --set fullnameOverride=${RELEASE} \
+              --set image.repository=${IMAGE_REPO} \
+              --set image.tag=${IMAGE_TAG}
+          """
                 }
             }
         }
         /******************************************************************
          * ✅ 9) VERIFY ROLLOUT
          ******************************************************************/
-        stage('Verify Istio + App') {
+        stage('Verify Rollout') {
             steps {
+                echo '\033[35m============ VERIFY ROLLOUT ===============\033[0m'
                 withCredentials([file(credentialsId: 'kubeconfig-dev', variable: 'KUBECONFIG')]) {
                     sh """
-        set -e
-        echo "🔎 Pods (expect istio-proxy container)"
-        ${KUBECTL} -n ${NAMESPACE} get pods -o wide
-
-        echo "🔎 Istio gateway resources"
-        ${KUBECTL} -n ${NAMESPACE} get gateway,virtualservice,destinationrule || true
-
-        echo "✅ Rollout"
-        ${KUBECTL} -n ${NAMESPACE} rollout status deploy/${RELEASE} --timeout=300s
-      """
+            ${KUBECTL} -n ${NAMESPACE} rollout status deployment/${RELEASE} --timeout=300s
+            ${KUBECTL} -n ${NAMESPACE} get deploy,po,svc -o wide
+          """
                 }
             }
         }
-        /********************************************************************
-         * 🧹 POST
-         ********************************************************************/
     }
+    /********************************************************************
+     * 🧹 POST
+     ********************************************************************/
     post {
         success {
             echo "✅ Deployed ${IMAGE_REPO}:${IMAGE_TAG} to ns=${NAMESPACE}"
