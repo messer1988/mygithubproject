@@ -199,3 +199,64 @@ Namespace НЕ хранит данные, он группирует ресурс
 	•	Roles / RoleBindings
 
 
+
+1) Быстро понять, кто уже поставил Istio (диагностика)
+helm list -A | grep -i istio
+
+kubectl get crd wasmplugins.extensions.istio.io -o jsonpath='{.metadata.labels}{"\n"}{.metadata.annotations}{"\n"}'
+
+kubectl get pods -n istio-system
+
+2) УДАЛЕНИЕ И ПЕРЕУСТАНОВКА ISTIO
+
+Быстрая проверка: есть ли sidecar-injection и istio ресурсы
+kubectl get ns --show-labels | grep istio-injection
+kubectl get mutatingwebhookconfigurations | grep -i istio || true
+kubectl get validatingwebhookconfigurations | grep -i istio || true
+
+Удаляем Helm-релизы Istio (в правильном порядке)
+1.1 Удалить istiod
+helm uninstall istiod -n istio-system
+
+1.2 Удалить istio-base
+helm uninstall istio-base -n istio-system
+
+Проверка
+helm list -n istio-system
+kubectl get pods -n istio-system
+
+2) Удаляем namespace istio-system
+kubectl delete ns istio-system
+
+Проверка:
+kubectl get ns | grep istio-system || echo "istio-system removed"
+
+3) Чистим CRD Istio (самое важное)
+Istio CRD — cluster-wide, они часто остаются (и как раз из-за них у тебя была ошибка).
+
+Список CRD Istio:
+kubectl get crd | grep -i istio
+
+Удаляем все CRD Istio одной командой:
+kubectl get crd | grep -E 'istio\.io|istio' | awk '{print $1}' > /tmp/istio_crds.txt
+cat /tmp/istio_crds.txt
+xargs -r kubectl delete crd < /tmp/istio_crds.txt
+
+Проверка
+kubectl get crd | grep -i istio || echo "No istio CRDs"
+
+4) Удаляем webhooks Istio (если остались)
+kubectl get mutatingwebhookconfigurations | grep -i istio | awk '{print $1}' | xargs -r kubectl delete mutatingwebhookconfiguration
+kubectl get validatingwebhookconfigurations | grep -i istio | awk '{print $1}' | xargs -r kubectl delete validatingwebhookconfiguration
+
+5) Удаляем ClusterRoles / ClusterRoleBindings Istio (по желанию, но лучше почистить)
+kubectl get clusterrole | grep -i istio | awk '{print $1}' | xargs -r kubectl delete clusterrole
+kubectl get clusterrolebinding | grep -i istio | awk '{print $1}' | xargs -r kubectl delete clusterrolebinding
+
+6) Финальная проверка “чисто ли”
+kubectl get ns | grep -i istio || echo "No istio namespaces"
+kubectl get crd | grep -i istio || echo "No istio CRDs"
+kubectl get mutatingwebhookconfigurations | grep -i istio || echo "No istio mutating webhooks"
+kubectl get validatingwebhookconfigurations | grep -i istio || echo "No istio validating webhooks"
+
+
