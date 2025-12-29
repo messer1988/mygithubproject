@@ -1,10 +1,12 @@
 {{- $istio := .Values.istio | default dict -}}
-  {{- if ($istio.enabled | default false) }}
+  {{- if ($istio.enabled | default false) -}}
 apiVersion: networking.istio.io/v1beta1
 kind: Gateway
 metadata:
   name: {{ include "nginx-app.fullname" . }}
-  namespace: {{ $istio.gateway.namespace | default "istio-system" }}
+  namespace: {{ $istio.gateway.namespace | default "istio-system" | quote }}
+  labels:
+    {{- include "nginx-app.labels" . | nindent 4 }}
 spec:
   selector:
     istio: ingressgateway
@@ -13,11 +15,11 @@ spec:
         number: 443
         name: https
         protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: {{ $istio.gateway.tls.credentialName | default "nginx-tls" | quote }}
       hosts:
-  {{- range $istio.gateway.hosts }}
+  {{- range ($istio.gateway.hosts | default (list "nginx.local")) }}
 - {{ . | quote }}
   {{- end }}
-tls:
-  mode: SIMPLE
-  credentialName: {{ $istio.gateway.tls.credentialName | default "nginx-tls" | quote }}
   {{- end }}
