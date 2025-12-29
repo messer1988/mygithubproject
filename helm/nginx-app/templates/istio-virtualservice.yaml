@@ -1,24 +1,27 @@
 {{- $istio := .Values.istio | default dict -}}
-  {{- if ($istio.enabled | default false) }}
+  {{- if ($istio.enabled | default false) -}}
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: {{ include "nginx-app.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "nginx-app.labels" . | nindent 4 }}
 spec:
   hosts:
-  {{- range $istio.gateway.hosts }}
+{{- range (($istio.virtualService.hosts | default $istio.gateway.hosts) | default (list "nginx.local")) }}
 - {{ . | quote }}
   {{- end }}
 gateways:
-  - {{ $istio.gateway.namespace | default "istio-system" }}/{{ include "nginx-app.fullname" . }}
+  # Gateway у нас живёт в istio-system (или заданном namespace)
+  - {{ printf "%s/%s" ($istio.gateway.namespace | default "istio-system") (include "nginx-app.fullname" .) | quote }}
 http:
-    - match:
+  - match:
       - uri:
-          prefix: {{ $istio.virtualService.uriPrefix | default "/" | quote }}
-      route:
-        - destination:
-            host: {{ include "nginx-app.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
-            port:
-              number: {{ .Values.service.port }}
-  {{- end }}
+          prefix: /
+    route:
+      - destination:
+          host: {{ include "nginx-app.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+          port:
+            number: {{ .Values.service.port }}
+{{- end }}
