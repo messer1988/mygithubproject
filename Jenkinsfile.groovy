@@ -217,18 +217,18 @@ pipeline {
         stage('Generate TLS with mkcert') {
             steps {
                 echo '\033[35m============ TLS GENERATION (mkcert → secret nginx-tls) ===============\033[0m'
-                sh """
+                sh
           echo '🔐 Генерация TLS сертификата nginx.local через mkcert...'
-
+        """
           # создаём сертификаты в каталоге ./tls
           mkdir -p tls
           mkcert -cert-file tls/nginx.local.pem -key-file tls/nginx.local-key.pem nginx.local
 
           echo '📦 Создание TLS Secret в Kubernetes...'
-          kubectl -n default delete secret nginx-tls --ignore-not-found=true
-          kubectl -n default create secret tls nginx-tls \
-              --cert=tls/nginx.local.pem \
-              --key=tls/nginx.local-key.pem
+                kubectl -n istio-system delete secret nginx-tls --ignore-not-found=true
+                kubectl -n istio-system create secret tls nginx-tls \
+                --cert=tls/nginx.local.pem \
+                --key=tls/nginx.local-key.pem
 
           echo '✅ TLS сертификат и Secret обновлены.'
         """

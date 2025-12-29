@@ -1,0 +1,24 @@
+{{- $istio := .Values.istio | default dict -}}
+  {{- if ($istio.enabled | default false) }}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "nginx-app.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  hosts:
+  {{- range $istio.gateway.hosts }}
+- {{ . | quote }}
+  {{- end }}
+gateways:
+  - {{ $istio.gateway.namespace | default "istio-system" }}/{{ include "nginx-app.fullname" . }}
+http:
+    - match:
+      - uri:
+          prefix: {{ $istio.virtualService.uriPrefix | default "/" | quote }}
+      route:
+        - destination:
+            host: {{ include "nginx-app.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+            port:
+              number: {{ .Values.service.port }}
+  {{- end }}
