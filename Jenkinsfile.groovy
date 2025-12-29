@@ -20,6 +20,8 @@ pipeline {
      ********************************************************************/
     parameters {
         choice(name: 'DockerImage', choices: ['', 'nginx-app'], description: 'Выбор образа приложения из DockerHub')
+        booleanParam(name: 'Install_istio', defaultValue: false, description: 'Сценарий установки ISTIO')
+        booleanParam(name: 'Delete_istio', defaultValue: false, description: 'Сценарий удаления ISTIO')
     }
     /********************************************************************
      * ⚙️ OPTIONS
@@ -55,11 +57,45 @@ pipeline {
 
             }
         }
+        stage('Uninstall Istio (cleanup)') {
+            when {
+                expression {
+                    params.Delete_istio == true
+                }
+            }
+            steps {
+                echo '\033[35m============ Uninstall Istio (cleanup) ===============\033[0m'
+                sh """
+      set -e
+
+      # 0) remove helm releases if exist (ignore errors)
+      ${HELM} uninstall istio-ingressgateway -n istio-system || true
+      ${HELM} uninstall istiod -n istio-system || true
+      ${HELM} uninstall istio-base -n istio-system || true
+
+      # 1) delete namespace (ignore if not exist)
+      kubectl delete ns istio-system --ignore-not-found=true
+
+      # 2) delete istio webhooks (if left behind)
+      kubectl get mutatingwebhookconfiguration | grep -i istio | awk '{print \$1}' | xargs -r kubectl delete mutatingwebhookconfiguration || true
+      kubectl get validatingwebhookconfiguration | grep -i istio | awk '{print \$1}' | xargs -r kubectl delete validatingwebhookconfiguration || true
+
+      # 3) delete istio CRDs (cluster-wide)
+      kubectl get crd | awk '{print \$1}' | grep -E 'istio\\.io|istio' | xargs -r kubectl delete crd || true
+    """
+            }
+        }
         /******************************************************************
          * 🧭 3) INSTALL ISTIO
          ******************************************************************/
         stage('Install Istio (base/istiod/gateway)') {
+            when {
+                expression {
+                    params.Install_istio == true
+                }
+            }
             steps {
+                echo '\033[35m============ INSTALL ISTIO ===============\033[0m'
                 sh """
       set -e
 
