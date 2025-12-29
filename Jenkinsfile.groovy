@@ -217,9 +217,8 @@ pipeline {
         stage('Generate TLS with mkcert') {
             steps {
                 echo '\033[35m============ TLS GENERATION (mkcert → secret nginx-tls) ===============\033[0m'
-                sh
+                sh """
           echo '🔐 Генерация TLS сертификата nginx.local через mkcert...'
-        """
           # создаём сертификаты в каталоге ./tls
           mkdir -p tls
           mkcert -cert-file tls/nginx.local.pem -key-file tls/nginx.local-key.pem nginx.local
