@@ -1,26 +1,25 @@
 {{- $istio := .Values.istio | default dict -}}
-{{- if ($istio.enabled | default false) -}}
+{{- if ($istio.enabled | default false) }}
+
 apiVersion: networking.istio.io/v1beta1
-kind: VirtualService
+kind: Gateway
 metadata:
   name: {{ include "nginx-app.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ $istio.gateway.namespace | default "istio-system" }}
 spec:
-  hosts:
-{{- range ($istio.virtualService.hosts | default list) }}
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      hosts:
+{{- range ($istio.gateway.hosts | default list) }}
         - {{ . | quote }}
 {{- end }}
-gateways:
-{{- range ($istio.virtualService.gateways | default list) }}
-        - {{ . | quote }}
+tls:
+  mode: SIMPLE
+  credentialName: {{ $istio.gateway.tls.credentialName | default "nginx-tls" | quote }}
+
 {{- end }}
-http:
-  - match:
-      - uri:
-          prefix: {{ $istio.virtualService.http.prefix | default "/" | quote }}
-    route:
-      - destination:
-          host: {{ include "nginx-app.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
-          port:
-            number: {{ .Values.service.port }}
-{{- end -}}
