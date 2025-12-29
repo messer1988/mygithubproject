@@ -260,3 +260,5 @@ kubectl get mutatingwebhookconfigurations | grep -i istio || echo "No istio muta
 kubectl get validatingwebhookconfigurations | grep -i istio || echo "No istio validating webhooks"
 
 
+
+
