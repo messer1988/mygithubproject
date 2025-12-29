@@ -56,6 +56,31 @@ pipeline {
             }
         }
         /******************************************************************
+         * 🧭 3) INSTALL ISTIO
+         ******************************************************************/
+        stage('Install Istio (base/istiod/gateway)') {
+            steps {
+                sh """
+      set -e
+
+      ${HELM} repo add istio https://istio-release.storage.googleapis.com/charts
+      ${HELM} repo update
+
+      # 1) CRDs/база
+      ${HELM} upgrade --install istio-base istio/base \
+        -n istio-system --create-namespace --wait
+
+      # 2) control plane
+      ${HELM} upgrade --install istiod istio/istiod \
+        -n istio-system --wait
+
+      # 3) ingress gateway (это отдельный chart)
+      ${HELM} upgrade --install istio-ingressgateway istio/gateway \
+        -n istio-system --wait
+    """
+            }
+        }
+        /******************************************************************
          * 🐳 3) DOCKER DEBUG
          ******************************************************************/
         stage('Debug Docker') {

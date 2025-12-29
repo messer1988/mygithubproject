@@ -152,4 +152,50 @@ kubectl delete pod helm.nginx-app-7bd47c68fc-s9bp6 -n default
 helm upgrade --install nginx-app helm/nginx-app -n default
 
 
+Проверить namespace
+kubectl get ns
+Как узнать namespace текущего контекста
+kubectl config get-contexts
+
+Проверить содержимое namespace
+kubectl get all -n default
+
+Что такое default namespace
+default — это namespace по умолчанию.
+Если ты НЕ указал namespace, Kubernetes использует default.
+
+
+
+
+Зачем нужны namespace (практика)
+Задача Пример
+Разделение окружений dev, stage, prod
+Разделение команд    team-a, team-b
+Сервисы              monitoring, logging, istio-system
+Безопасность         разные права доступа
+Лимиты                  ограничение CPU / RAM
+
+Стандартные namespace (важно знать)
+Namespace              Для чего
+default                обычные workload’ы
+kube-system            системные компоненты k8s
+kube-public            публичные данные
+kube-node-lease        heartbeat нод
+istio-system           Istio (если есть)
+monitoring             Prometheus, Grafana
+
+
+
+Какие данные хранятся в namespace
+Namespace НЕ хранит данные, он группирует ресурсы, которые внутри него.
+В namespace могут быть:
+	•	Pods
+	•	Deployments
+	•	Services
+	•	ConfigMaps
+	•	Secrets
+	•	Ingress
+	•	Jobs / CronJobs
+	•	Roles / RoleBindings
+
 
