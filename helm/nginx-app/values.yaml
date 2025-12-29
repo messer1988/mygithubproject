@@ -27,13 +27,13 @@ istio:
   enabled: true
   gateway:
     namespace: istio-system
-    name: istio-ingressgateway
     hosts:
       - nginx.local
     tls:
-      enabled: true
       credentialName: nginx-tls
+
   virtualService:
-    uriPrefix: /
-  destinationRule:
-    enabled: false
+    hosts:
+      - nginx.local
+    gateways:
+      - nginx-app   # имя Gateway (по умолчанию fullname чарта)
