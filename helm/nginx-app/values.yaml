@@ -1,3 +1,5 @@
+# values.yaml (nginx-app)
+
 replicaCount: 2
 
 image:
@@ -9,31 +11,49 @@ service:
   type: ClusterIP
   port: 80
 
+# Kubernetes Ingress выключаем — вход через Istio
 ingress:
   enabled: false
   className: "nginx"
   host: nginx.local
-
   tls:
-    enabled: true
+    enabled: false
     secretName: nginx-tls
 
+# Переменные окружения для ConfigMap (envFrom: configMapRef)
 env:
+  config:
+    APP_ENV: "dev"
+    WELCOME_MSG: "Hello from Helm + Istio!"
   secret:
-    username: ""
-    password: ""
+    DB_USER: ""
+    DB_PASS: ""
 
+# Istio включаем
 istio:
   enabled: true
+
+  # Gateway создаём в istio-system
   gateway:
+    name: nginx-app              # если в шаблоне имя берётся include fullname — можно не использовать, но оставляем для ясности
     namespace: istio-system
     hosts:
       - nginx.local
     tls:
-      credentialName: nginx-tls
+      enabled: true
+      credentialName: nginx-tls  # Secret должен быть в istio-system!
 
+  # VirtualService создаём в namespace релиза (default)
   virtualService:
     hosts:
       - nginx.local
     gateways:
-      - nginx-app   # имя Gateway (по умолчанию fullname чарта)
+      - istio-system/nginx-app   # ВАЖНО: namespace/name, так как gateway в istio-system
+    http:
+      enabled: true
+      prefix: "/"
+
+  # DestinationRule (опционально)
+  destinationRule:
+    enabled: true
+    tlsMode: DISABLE
