@@ -10,8 +10,8 @@ metadata:
 spec:
   hosts:
 {{- range (($istio.virtualService.hosts | default $istio.gateway.hosts) | default (list "nginx.local")) }}
-- {{ . | quote }}
-  {{- end }}
+        - {{ . | quote }}
+{{- end }}
 gateways:
   # Gateway у нас живёт в istio-system (или заданном namespace)
   - {{ printf "%s/%s" ($istio.gateway.namespace | default "istio-system") (include "nginx-app.fullname" .) | quote }}
