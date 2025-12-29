@@ -10,7 +10,7 @@ service:
   port: 80
 
 ingress:
-  enabled: true
+  enabled: false
   className: "nginx"
   host: nginx.local
 
@@ -24,7 +24,7 @@ env:
     password: ""
 
 istio:
-  enabled: false
+  enabled: true
   gateway:
     namespace: istio-system
     name: istio-ingressgateway
