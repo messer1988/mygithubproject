@@ -20,6 +20,6 @@ spec:
         credentialName: {{ $istio.gateway.tls.credentialName | default "nginx-tls" | quote }}
       hosts:
 {{- range ($istio.gateway.hosts | default (list "nginx.local")) }}
-         - {{ . | quote }}
+        - {{ . | quote }}
   {{- end }}
   {{- end }}
