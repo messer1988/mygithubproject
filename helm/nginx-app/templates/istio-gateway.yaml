@@ -16,7 +16,7 @@ spec:
         protocol: HTTPS
       hosts:
 {{- range ($istio.gateway.hosts | default list) }}
- - {{ . | quote }}
+        - {{ . | quote }}
 {{- end }}
 tls:
   mode: SIMPLE
