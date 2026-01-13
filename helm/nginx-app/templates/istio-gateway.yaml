@@ -18,8 +18,8 @@ spec:
 {{- range ($istio.gateway.hosts | default list) }}
         - {{ . | quote }}
 {{- end }}
-tls:
-  mode: SIMPLE
-  credentialName: {{ $istio.gateway.tls.credentialName | default "nginx-tls" | quote }}
+      tls:
+        mode: SIMPLE
+        credentialName: {{ $istio.gateway.tls.credentialName | default "nginx-tls" | quote }}
 
 {{- end }}

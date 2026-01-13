@@ -10,17 +10,17 @@ spec:
 {{- range ($istio.virtualService.hosts | default list) }}
         - {{ . | quote }}
 {{- end }}
-gateways:
+  gateways:
 {{- range ($istio.virtualService.gateways | default list) }}
         - {{ . | quote }}
 {{- end }}
-http:
-  - match:
-      - uri:
-          prefix: {{ $istio.virtualService.http.prefix | default "/" | quote }}
-    route:
-      - destination:
-          host: {{ include "nginx-app.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
-          port:
-            number: {{ .Values.service.port }}
+  http:
+    - match:
+        - uri:
+            prefix: {{ $istio.virtualService.http.prefix | default "/" | quote }}
+      route:
+        - destination:
+             host: {{ include "nginx-app.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+             port:
+               number: {{ .Values.service.port }}
 {{- end -}}
