@@ -68,7 +68,7 @@ spec:
       volumes:
         - name: nginx-template
           configMap:
-            name: { { include "nginx-app.fullname" . } }-template
+           name: {{ include "nginx-app.fullname" . }}-template
         - name: nginx-site
-        configMap:
-          name: { { include "nginx-app.fullname" . } }-site
+          configMap:
+           name: {{ include "nginx-app.fullname" . }}-site
