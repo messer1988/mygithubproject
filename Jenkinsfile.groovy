@@ -112,8 +112,7 @@ pipeline {
 
       # 3) ingress gateway (это отдельный chart)
       ${HELM} upgrade --install istio-ingressgateway istio/gateway \
-        -n istio-system --wait
-        --wait --timeout 10m
+        -n istio-system --wait --timeout 10m
     """
             }
         }
