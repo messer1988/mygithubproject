@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "nginx-app.fullname" . }}-site
+  labels:
+    {{- include "nginx-app.labels" . | nindent 4 }}
+data:
+  index.html: |-
+    <!doctype html>
+    <html lang="ru">
+    <head>
+      <meta charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <title>DevOps Assistant</title>
+      <style>
+        body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Arial;margin:0;background:#0b1020;color:#e7e9ee}
+        header{padding:32px 20px;background:linear-gradient(120deg,#121a35,#0b1020);}
+        .wrap{max-width:980px;margin:0 auto;}
+        h1{margin:0 0 10px;font-size:40px}
+        p{opacity:.92;line-height:1.55}
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:24px 0;padding:0 20px}
+        .card{background:#121a35;border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px}
+        .tag{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.08);margin-right:8px;font-size:12px}
+        a.btn{display:inline-block;padding:12px 16px;border-radius:12px;background:#4c7dff;color:#fff;text-decoration:none;font-weight:600}
+        code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:6px}
+        footer{padding:20px;opacity:.7}
+      </style>
+    </head>
+    <body>
+      <header>
+        <div class="wrap">
+          <span class="tag">Kubernetes</span><span class="tag">Istio</span><span class="tag">Helm</span><span class="tag">Jenkins</span>
+          <h1>DevOps Assistant</h1>
+          <p>Сайт крутится в Kubernetes, трафик идёт через Istio IngressGateway по HTTPS (mkcert), деплой делается Helm + Jenkins.</p>
+          <p><a class="btn" href="/api/env">Show env JSON</a> &nbsp; <a class="btn" href="/health">Health</a></p>
+        </div>
+      </header>
+
+      <main class="wrap">
+        <div class="grid">
+          <div class="card">
+            <h3>✅ Health</h3>
+            <p>Проверка живости сервиса: <code>/health</code></p>
+          </div>
+          <div class="card">
+            <h3>🔐 TLS</h3>
+            <p>Сертификат хранится в Secret <code>nginx-tls</code> в <code>istio-system</code>.</p>
+          </div>
+          <div class="card">
+            <h3>🚀 Deploy</h3>
+            <p>Pipeline собирает multi-arch image и выкатывает Helm release.</p>
+          </div>
+          <div class="card">
+            <h3>📦 Config</h3>
+            <p>Nginx конфиг — в ConfigMap, подставляем переменные через <code>envsubst</code>.</p>
+          </div>
+        </div>
+      </main>
+
+      <footer class="wrap">
+        <p>Made by Python • DevOps Playground</p>
+      </footer>
+    </body>
+    </html>

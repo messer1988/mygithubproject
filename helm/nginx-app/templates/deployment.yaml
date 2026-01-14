@@ -31,6 +31,9 @@ spec:
             - name: nginx-template
               mountPath: /tmp/default.conf
               subPath: default.conf
+            - mountPath: /usr/share/nginx/html/index.html
+              name: nginx-site
+              subPath: index.html
 
           # на старте подставляем ENV в шаблон и запускаем nginx
           command: ["/bin/sh","-c"]
@@ -66,4 +69,6 @@ spec:
         - name: nginx-template
           configMap:
             name: {{ include "nginx-app.fullname" . }}-template
-
+        - name: nginx-site
+          configMap:
+            name: { { include "nginx-app.fullname" . } }-site
