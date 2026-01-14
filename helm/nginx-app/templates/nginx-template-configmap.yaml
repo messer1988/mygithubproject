@@ -20,8 +20,8 @@ data:
         default_type text/plain;
         return 200 "OK\n";
       }
-      location /env {
-        default_type text/plain;
-        return 200 "APP_ENV=$APP_ENV\nWELCOME_MSG=$WELCOME_MSG\nDB_USER=$DB_USER\n";
+      location /api/env {
+        default_type application/json;
+        return 200 "{\"APP_ENV\":\"$APP_ENV\",\"WELCOME_MSG\":\"$WELCOME_MSG\",\"DB_USER\":\"$DB_USER\"}";
       }
     }
