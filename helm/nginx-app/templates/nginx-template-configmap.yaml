@@ -8,19 +8,32 @@ data:
   default.conf: |
     server {
       listen 80;
-    
+      server_name _;
+
+      # статика
+      root /usr/share/nginx/html;
+      index index.html;
+
+      # сайт
       location / {
-       root /usr/share/nginx/html;
-       index index.html;
-       try_files $uri $uri/ /index.html;
+        try_files $uri $uri/ /index.html;
       }
 
-      location /api/env {
-       default_type application/json;
-       return 200 "{\"APP_ENV\":\"$APP_ENV\",\"WELCOME_MSG\":\"$WELCOME_MSG\",\"DB_USER\":\"$DB_USER\"}";
-      }
+      # healthcheck (для probes)
       location /health {
-       default_type text/plain;
-       return 200 "ok\n";
+        default_type text/plain;
+        return 200 "ok\n";
+      }
+
+      # env (оставил твой путь)
+      location /env {
+        default_type text/plain;
+        return 200 "APP_ENV=$APP_ENV\nWELCOME_MSG=$WELCOME_MSG\nDB_USER=$DB_USER\n";
+      }
+
+      # если хочешь JSON (удобно)
+      location /api/env {
+        default_type application/json;
+        return 200 "{\"APP_ENV\":\"$APP_ENV\",\"WELCOME_MSG\":\"$WELCOME_MSG\",\"DB_USER\":\"$DB_USER\"}";
+      }
     }
-}
