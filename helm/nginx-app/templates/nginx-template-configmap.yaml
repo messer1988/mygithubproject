@@ -8,20 +8,19 @@ data:
   default.conf: |
     server {
       listen 80;
-
+    
       location / {
-        root /usr/share/nginx/html;
-        index index.html;
-        try_files $uri $uri/ /index.html;
+       root /usr/share/nginx/html;
+       index index.html;
+       try_files $uri $uri/ /index.html;
       }
 
-     location /api/env {
+      location /api/env {
        default_type application/json;
        return 200 "{\"APP_ENV\":\"$APP_ENV\",\"WELCOME_MSG\":\"$WELCOME_MSG\",\"DB_USER\":\"$DB_USER\"}";
       }
-
-     location /health {
+      location /health {
        default_type text/plain;
        return 200 "ok\n";
-      }
+    }
 }
