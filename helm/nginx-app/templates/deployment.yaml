@@ -48,13 +48,13 @@ spec:
           # probes (боевые значения по умолчанию)
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: 80
             initialDelaySeconds: 10
             periodSeconds: 5
           readinessProbe:
             httpGet:
-              path: /
+              path: /health
               port: 80
             initialDelaySeconds: 5
             periodSeconds: 3
