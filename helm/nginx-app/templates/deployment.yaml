@@ -52,7 +52,8 @@ spec:
           command: ["/bin/sh","-c"]
           args:
             - |
-              envsubst '$APP_ENV $WELCOME_MSG $DB_USER' < /tmp/default.conf > /etc/nginx/conf.d/default.conf && \
+              envsubst '$APP_ENV $WELCOME_MSG $DB_USER $POD_NAME $POD_NAMESPACE $NODE_NAME' \
+              < /tmp/default.conf > /etc/nginx/conf.d/default.conf && \
               exec nginx -g "daemon off;"
 
           ports:
