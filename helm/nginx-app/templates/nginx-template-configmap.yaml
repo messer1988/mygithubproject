@@ -12,7 +12,7 @@ data:
 
       # статика
       root /usr/share/nginx/html;
-      index index.html;
+      index index.html; 
 
       # сайт
       location / {
@@ -23,6 +23,19 @@ data:
       location /health {
         default_type text/plain;
         return 200 "ok\n";
+      }
+      # 🔍 Kubernetes probes
+      location /health/live {
+        default_type text/plain;
+        return 200 "live\n";
+      }
+      location /health/ready {
+        default_type text/plain;
+        return 200 "ready\n";
+      }
+      location /health/startup {
+        default_type text/plain;
+        return 200 "startup\n";
       }
 
       # env (оставил твой путь)
@@ -36,4 +49,13 @@ data:
         default_type application/json;
         return 200 "{\"APP_ENV\":\"$APP_ENV\",\"WELCOME_MSG\":\"$WELCOME_MSG\",\"DB_USER\":\"$DB_USER\"}";
       }
+      location /api/info {
+        default_type application/json;
+        return 200 '{
+        "pod": "$POD_NAME",
+        "namespace": "$POD_NAMESPACE",
+        "node": "$NODE_NAME",
+        "app_env": "$APP_ENV"
+      }';
+}
     }
