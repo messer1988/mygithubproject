@@ -25,6 +25,7 @@ spec:
                 name: {{ include "nginx-app.fullname" . }}-config
             - secretRef:
                 name: {{ include "nginx-app.fullname" . }}-secret
+          env:
             - name: POD_NAME
               valueFrom:
               fieldRef:
