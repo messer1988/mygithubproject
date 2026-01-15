@@ -10,21 +10,17 @@ data:
       listen 80;
       server_name _;
 
-      # статика
       root /usr/share/nginx/html;
-      index index.html; 
+      index index.html;
 
-      # сайт
       location / {
         try_files $uri $uri/ /index.html;
       }
 
-      # healthcheck (для probes)
       location /health {
         default_type text/plain;
         return 200 "ok\n";
       }
-      # 🔍 Kubernetes probes
       location /health/live {
         default_type text/plain;
         return 200 "live\n";
@@ -38,24 +34,18 @@ data:
         return 200 "startup\n";
       }
 
-      # env (оставил твой путь)
       location /env {
         default_type text/plain;
         return 200 "APP_ENV=$APP_ENV\nWELCOME_MSG=$WELCOME_MSG\nDB_USER=$DB_USER\n";
       }
 
-      # если хочешь JSON (удобно)
       location /api/env {
         default_type application/json;
-        return 200 "{\"APP_ENV\":\"$APP_ENV\",\"WELCOME_MSG\":\"$WELCOME_MSG\",\"DB_USER\":\"$DB_USER\"}";
+        return 200 "{\"APP_ENV\":\"$APP_ENV\",\"WELCOME_MSG\":\"$WELCOME_MSG\",\"DB_USER\":\"$DB_USER\"}\n";
       }
+
       location /api/info {
         default_type application/json;
-        return 200 '{
-        "pod": "$POD_NAME",
-        "namespace": "$POD_NAMESPACE",
-        "node": "$NODE_NAME",
-        "app_env": "$APP_ENV"
-      }';
-}
+        return 200 "{\"pod\":\"$POD_NAME\",\"namespace\":\"$POD_NAMESPACE\",\"node\":\"$NODE_NAME\",\"app_env\":\"$APP_ENV\"}\n";
+      }
     }
