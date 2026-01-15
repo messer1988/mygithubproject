@@ -8,10 +8,11 @@ data:
     <html lang="en">
     <head>
       <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>DevOps Helper</title>
       <style>
         body {
-          font-family: system-ui, sans-serif;
+          font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
           background: #0f172a;
           color: #e5e7eb;
           margin: 0;
@@ -19,28 +20,77 @@ data:
         }
         header {
           background: #020617;
-          padding: 20px;
+          padding: 22px 16px;
           text-align: center;
+          border-bottom: 1px solid rgba(148,163,184,0.15);
         }
+        header h1 { margin: 0; font-size: 28px; }
+        header p  { margin: 8px 0 0; opacity: 0.8; }
+
         main {
-          padding: 40px;
-          max-width: 900px;
+          padding: 28px 16px 40px;
+          max-width: 980px;
           margin: auto;
         }
+        .topbar{
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          gap:12px;
+          margin-bottom:16px;
+        }
+        .hint { opacity: 0.75; font-size: 14px; }
+        button {
+          background: #1f2937;
+          color: #e5e7eb;
+          border: 1px solid rgba(148,163,184,0.25);
+          border-radius: 10px;
+          padding: 10px 12px;
+          cursor: pointer;
+        }
+        button:hover { background: #111827; }
+
         .cards {
           display: grid;
           grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-          gap: 20px;
+          gap: 16px;
         }
         .card {
           background: #020617;
-          padding: 20px;
-          border-radius: 12px;
+          padding: 18px;
+          border-radius: 14px;
+          border: 1px solid rgba(148,163,184,0.15);
         }
+        .card h3 { margin: 0 0 10px; }
+        .card p { margin: 8px 0; opacity: 0.9; }
+        code {
+          background: rgba(148,163,184,0.12);
+          padding: 2px 6px;
+          border-radius: 8px;
+        }
+
+        .status-row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
+        .badge {
+          font-weight: 700;
+          padding: 6px 10px;
+          border-radius: 999px;
+          border: 1px solid rgba(148,163,184,0.25);
+          min-width: 72px;
+          text-align: center;
+        }
+        .ok   { color:#22c55e; border-color: rgba(34,197,94,0.35); background: rgba(34,197,94,0.10); }
+        .bad  { color:#ef4444; border-color: rgba(239,68,68,0.35); background: rgba(239,68,68,0.10); }
+        .wait { color:#eab308; border-color: rgba(234,179,8,0.35); background: rgba(234,179,8,0.10); }
+
+        .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 13px; opacity: 0.95; }
+        .kv { margin-top: 10px; display:grid; grid-template-columns: 120px 1fr; gap: 8px 10px; }
+        .kv div:nth-child(odd){ opacity:0.7; }
         footer {
           text-align: center;
-          padding: 20px;
-          opacity: 0.6;
+          padding: 18px 16px;
+          opacity: 0.65;
+          border-top: 1px solid rgba(148,163,184,0.15);
+          background:#020617;
         }
       </style>
     </head>
@@ -51,18 +101,50 @@ data:
       </header>
 
       <main>
+        <div class="topbar">
+          <div class="hint">Live status from <code>/health/*</code> (auto refresh every 3s)</div>
+          <button onclick="refreshAll()">Refresh now</button>
+        </div>
+
         <div class="cards">
           <div class="card">
             <h3>⚙️ Kubernetes</h3>
             <p>Pods, Deployments, Services, Probes</p>
+            <p class="mono">Tip: probes должны ходить на <code>/health/ready</code> и <code>/health/live</code>.</p>
           </div>
+
           <div class="card">
             <h3>🧩 Istio</h3>
             <p>Gateway, VirtualService, mTLS</p>
+            <p class="mono">You are behind <code>istio-envoy</code> (sidecar / gateway).</p>
           </div>
+
           <div class="card">
-            <h3>📦 Config</h3>
-            <p>ConfigMap + envsubst</p>
+            <h3>✅ Health checks</h3>
+
+            <div class="status-row">
+              <span><code>/health/live</code></span>
+              <span id="live" class="badge wait">…</span>
+            </div>
+
+            <div class="status-row" style="margin-top:10px;">
+              <span><code>/health/ready</code></span>
+              <span id="ready" class="badge wait">…</span>
+            </div>
+
+            <div class="status-row" style="margin-top:10px;">
+              <span><code>/health/startup</code></span>
+              <span id="startup" class="badge wait">…</span>
+            </div>
+
+            <p class="mono" id="last" style="margin-top:12px; opacity:0.8;">Last check: -</p>
+          </div>
+
+          <div class="card">
+            <h3>📦 Quick commands</h3>
+            <p class="mono">kubectl get pods -n default</p>
+            <p class="mono">kubectl logs deploy/nginx-app -n default -c nginx-app</p>
+            <p class="mono">curl -vk https://nginx.local:8443/health/ready</p>
           </div>
         </div>
       </main>
@@ -70,5 +152,36 @@ data:
       <footer>
         Made by Python • DevOps Playground
       </footer>
+
+      <script>
+        function setBadge(id, state, text) {
+          const el = document.getElementById(id);
+          el.classList.remove("ok","bad","wait");
+          el.classList.add(state);
+          el.textContent = text;
+        }
+
+        async function check(path, id) {
+          setBadge(id, "wait", "…");
+          try {
+            const res = await fetch(path, { cache: "no-store" });
+            if (res.ok) setBadge(id, "ok", "OK");
+            else setBadge(id, "bad", "FAIL");
+          } catch (e) {
+            setBadge(id, "bad", "ERR");
+          }
+        }
+
+        function refreshAll() {
+          check("/health/live", "live");
+          check("/health/ready", "ready");
+          check("/health/startup", "startup");
+          const now = new Date();
+          document.getElementById("last").textContent = "Last check: " + now.toLocaleString();
+        }
+
+        refreshAll();
+        setInterval(refreshAll, 3000);
+      </script>
     </body>
     </html>
