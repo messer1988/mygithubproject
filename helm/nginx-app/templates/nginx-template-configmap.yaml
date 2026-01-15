@@ -48,4 +48,4 @@ data:
         default_type application/json;
         return 200 "{\"pod\":\"$POD_NAME\",\"namespace\":\"$POD_NAMESPACE\",\"node\":\"$NODE_NAME\",\"app_env\":\"$APP_ENV\"}\n";
       }
-}
+    }
