@@ -5,183 +5,128 @@ metadata:
 data:
   index.html: |
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="ru">
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <title>DevOps Helper</title>
       <style>
-        body {
+        body{
           font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-          background: #0f172a;
-          color: #e5e7eb;
-          margin: 0;
-          padding: 0;
+          background:#0f172a; color:#e5e7eb; margin:0;
         }
-        header {
-          background: #020617;
-          padding: 22px 16px;
-          text-align: center;
-          border-bottom: 1px solid rgba(148,163,184,0.15);
+        header{
+          background:#020617; padding:22px 16px; text-align:center;
+          border-bottom:1px solid rgba(148,163,184,0.15);
         }
-        header h1 { margin: 0; font-size: 28px; }
-        header p  { margin: 8px 0 0; opacity: 0.8; }
-
-        main {
-          padding: 28px 16px 40px;
-          max-width: 980px;
-          margin: auto;
+        header h1{margin:0; font-size:28px;}
+        header p{margin:8px 0 0; opacity:.8}
+        main{padding:26px 16px 40px; max-width:1100px; margin:auto;}
+        .topbar{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; flex-wrap:wrap;}
+        .hint{opacity:.75; font-size:14px}
+        button{
+          background:#1f2937; color:#e5e7eb; border:1px solid rgba(148,163,184,0.25);
+          border-radius:10px; padding:10px 12px; cursor:pointer;
         }
-        .topbar{
-          display:flex;
-          align-items:center;
-          justify-content:space-between;
-          gap:12px;
-          margin-bottom:16px;
+        button:hover{background:#111827}
+        .grid{
+          display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px;
         }
-        .hint { opacity: 0.75; font-size: 14px; }
-        button {
-          background: #1f2937;
-          color: #e5e7eb;
-          border: 1px solid rgba(148,163,184,0.25);
-          border-radius: 10px;
-          padding: 10px 12px;
-          cursor: pointer;
+        .card{
+          background:#020617; padding:16px; border-radius:14px;
+          border:1px solid rgba(148,163,184,0.15);
         }
-        button:hover { background: #111827; }
-
-        .cards {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-          gap: 16px;
+        .card h3{margin:0 0 10px}
+        .card p{margin:8px 0; opacity:.92}
+        .badge{
+          font-weight:800; padding:6px 10px; border-radius:999px;
+          border:1px solid rgba(148,163,184,0.25); min-width:72px; text-align:center;
         }
-        .card {
-          background: #020617;
-          padding: 18px;
-          border-radius: 14px;
-          border: 1px solid rgba(148,163,184,0.15);
+        .ok{color:#22c55e; border-color:rgba(34,197,94,.35); background:rgba(34,197,94,.10)}
+        .bad{color:#ef4444; border-color:rgba(239,68,68,.35); background:rgba(239,68,68,.10)}
+        .wait{color:#eab308; border-color:rgba(234,179,8,.35); background:rgba(234,179,8,.10)}
+        .row{display:flex; align-items:center; justify-content:space-between; gap:10px}
+        code{
+          background:rgba(148,163,184,0.12); padding:2px 6px; border-radius:8px;
+          font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+          font-size:12.5px;
         }
-        .card h3 { margin: 0 0 10px; }
-        .card p { margin: 8px 0; opacity: 0.9; }
-        code {
-          background: rgba(148,163,184,0.12);
-          padding: 2px 6px;
-          border-radius: 8px;
+        pre{
+          margin:10px 0 0; padding:10px 12px; border-radius:12px;
+          background:rgba(148,163,184,0.08); border:1px solid rgba(148,163,184,0.15);
+          overflow:auto;
+          font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+          font-size:12.5px;
+          line-height:1.4;
+          white-space:pre;
         }
-
-        .status-row { display:flex; align-items:center; justify-content:space-between; gap:10px; }
-        .badge {
-          font-weight: 700;
-          padding: 6px 10px;
-          border-radius: 999px;
-          border: 1px solid rgba(148,163,184,0.25);
-          min-width: 72px;
-          text-align: center;
+        .cmd{position:relative}
+        .copy{
+          position:absolute; top:10px; right:10px;
+          font-size:12px; padding:6px 9px; border-radius:10px;
+          background:#111827;
         }
-        .ok   { color:#22c55e; border-color: rgba(34,197,94,0.35); background: rgba(34,197,94,0.10); }
-        .bad  { color:#ef4444; border-color: rgba(239,68,68,0.35); background: rgba(239,68,68,0.10); }
-        .wait { color:#eab308; border-color: rgba(234,179,8,0.35); background: rgba(234,179,8,0.10); }
-
-        .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 13px; opacity: 0.95; }
-        .kv { margin-top: 10px; display:grid; grid-template-columns: 120px 1fr; gap: 8px 10px; }
-        .kv div:nth-child(odd){ opacity:0.7; }
-        footer {
-          text-align: center;
-          padding: 18px 16px;
-          opacity: 0.65;
-          border-top: 1px solid rgba(148,163,184,0.15);
-          background:#020617;
+        .copy:active{transform:translateY(1px)}
+        .sectionTitle{
+          margin:18px 0 10px; opacity:.85; font-size:13px; text-transform:uppercase; letter-spacing:.08em;
         }
+        footer{
+          text-align:center; padding:18px 16px; opacity:.65;
+          border-top:1px solid rgba(148,163,184,0.15); background:#020617;
+        }
+        .mini{font-size:12.5px; opacity:.8}
       </style>
     </head>
     <body>
       <header>
         <h1>🚀 DevOps Helper</h1>
-        <p>Kubernetes • Helm • Istio • CI/CD</p>
+        <p>Kubernetes • Helm • Istio • CI/CD • Cheatsheet</p>
       </header>
 
       <main>
         <div class="topbar">
-          <div class="hint">Live status from <code>/health/*</code> (auto refresh every 3s)</div>
-          <button onclick="refreshAll()">Refresh now</button>
+          <div class="hint">Health from <code>/health/*</code>. Команды ниже — копируй и запускай в терминале.</div>
+          <button onclick="refreshAll()">Refresh health</button>
         </div>
 
-        <div class="cards">
-          <div class="card">
-            <h3>⚙️ Kubernetes</h3>
-            <p>Pods, Deployments, Services, Probes</p>
-            <p class="mono">Tip: probes должны ходить на <code>/health/ready</code> и <code>/health/live</code>.</p>
-          </div>
-
-          <div class="card">
-            <h3>🧩 Istio</h3>
-            <p>Gateway, VirtualService, mTLS</p>
-            <p class="mono">You are behind <code>istio-envoy</code> (sidecar / gateway).</p>
-          </div>
-
+        <div class="grid">
           <div class="card">
             <h3>✅ Health checks</h3>
-
-            <div class="status-row">
-              <span><code>/health/live</code></span>
-              <span id="live" class="badge wait">…</span>
-            </div>
-
-            <div class="status-row" style="margin-top:10px;">
-              <span><code>/health/ready</code></span>
-              <span id="ready" class="badge wait">…</span>
-            </div>
-
-            <div class="status-row" style="margin-top:10px;">
-              <span><code>/health/startup</code></span>
-              <span id="startup" class="badge wait">…</span>
-            </div>
-
-            <p class="mono" id="last" style="margin-top:12px; opacity:0.8;">Last check: -</p>
+            <div class="row"><span><code>/health/live</code></span><span id="live" class="badge wait">…</span></div>
+            <div class="row" style="margin-top:10px;"><span><code>/health/ready</code></span><span id="ready" class="badge wait">…</span></div>
+            <div class="row" style="margin-top:10px;"><span><code>/health/startup</code></span><span id="startup" class="badge wait">…</span></div>
+            <p class="mini" id="last">Last check: -</p>
           </div>
 
           <div class="card">
-            <h3>📦 Quick commands</h3>
-            <p class="mono">kubectl get pods -n default</p>
-            <p class="mono">kubectl logs deploy/nginx-app -n default -c nginx-app</p>
-            <p class="mono">curl -vk https://nginx.local:8443/health/ready</p>
+            <h3>🔎 Quick status</h3>
+            <p class="mini">Самое полезное “сразу понять что живо”:</p>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c1')">Copy</button>
+              <pre id="c1">kubectl get nodes -o wide</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c2')">Copy</button>
+              <pre id="c2">kubectl get pods -A -o wide</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c3')">Copy</button>
+              <pre id="c3">kubectl -n default get deploy,po,svc,ep -o wide</pre>
+            </div>
           </div>
-        </div>
-      </main>
 
-      <footer>
-        Made by Python • DevOps Playground
-      </footer>
+          <div class="card">
+            <h3>🧭 Minikube / Cluster bring-up</h3>
+            <p class="mini">Поднять/проверить кластер:</p>
 
-      <script>
-        function setBadge(id, state, text) {
-          const el = document.getElementById(id);
-          el.classList.remove("ok","bad","wait");
-          el.classList.add(state);
-          el.textContent = text;
-        }
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c4')">Copy</button>
+              <pre id="c4">minikube start --driver=docker</pre>
+            </div>
 
-        async function check(path, id) {
-          setBadge(id, "wait", "…");
-          try {
-            const res = await fetch(path, { cache: "no-store" });
-            if (res.ok) setBadge(id, "ok", "OK");
-            else setBadge(id, "bad", "FAIL");
-          } catch (e) {
-            setBadge(id, "bad", "ERR");
-          }
-        }
-
-        function refreshAll() {
-          check("/health/live", "live");
-          check("/health/ready", "ready");
-          check("/health/startup", "startup");
-          const now = new Date();
-          document.getElementById("last").textContent = "Last check: " + now.toLocaleString();
-        }
-
-        refreshAll();
-        setInterval(refreshAll, 3000);
-      </script>
-    </body>
-    </html>
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c5')">Copy</button>
+              <pre id="c5">minikube status && kubectl cluster-info</pre>
