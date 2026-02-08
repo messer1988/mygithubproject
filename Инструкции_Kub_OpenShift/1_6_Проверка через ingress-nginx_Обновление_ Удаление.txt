@@ -7,5 +7,5 @@ kubectl -n ingress-nginx port-forward svc/ingress-nginx-controller 8443:443
 curl -k https://nginx.local:8443
 
 
-helm upgrade nginx-app .
-helm uninstall nginx-app
+helm upgrade helm.nginx-app .
+helm uninstall helm.nginx-app

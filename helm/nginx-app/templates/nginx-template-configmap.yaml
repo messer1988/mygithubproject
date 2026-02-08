@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "nginx-app.fullname" . }}-template
+  labels:
+    {{- include "nginx-app.labels" . | nindent 4 }}
+data:
+  default.conf: |
+    server {
+      listen 80;
+      server_name _;
+
+      root /usr/share/nginx/html;
+      index index.html;
+
+      location / {
+        try_files $uri $uri/ /index.html;
+      }
+
+      location /health {
+        default_type text/plain;
+        return 200 "ok\n";
+      }
+      location /health/live {
+        default_type text/plain;
+        return 200 "live\n";
+      }
+      location /health/ready {
+        default_type text/plain;
+        return 200 "ready\n";
+      }
+      location /health/startup {
+        default_type text/plain;
+        return 200 "startup\n";
+      }
+
+      location /env {
+        default_type text/plain;
+        return 200 "APP_ENV=$APP_ENV\nWELCOME_MSG=$WELCOME_MSG\nDB_USER=$DB_USER\n";
+      }
+
+      location /api/env {
+        default_type application/json;
+        return 200 "{\"APP_ENV\":\"$APP_ENV\",\"WELCOME_MSG\":\"$WELCOME_MSG\",\"DB_USER\":\"$DB_USER\"}\n";
+      }
+
+      location /api/info {
+        default_type application/json;
+        return 200 "{\"pod\":\"$POD_NAME\",\"namespace\":\"$POD_NAMESPACE\",\"node\":\"$NODE_NAME\",\"app_env\":\"$APP_ENV\"}\n";
+      }
+    }

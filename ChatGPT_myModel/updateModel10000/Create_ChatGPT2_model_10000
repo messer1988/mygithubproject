@@ -1,0 +1,74 @@
+1) Устанавливаем стабильныу версию Python
+brew install python@3.11
+
+
+2) шаг создание окружения  для работы этой версии python 3.11
+/usr/local/bin/python3.11 -m venv ~/devops-llm-env
+source ~/devops-llm-env/bin/activate
+pip install --upgrade pip
+pip install torch torchvision torchaudio transformers datasets accelerate gradio
+
+
+!!!
+3) Если мы уже ранее создавали окружение например для version python 3.14 то необходимо отключить
+Деактивируй текущее окружение
+deactivate
+
+Удали старое окружение (на 3.14)
+rm -rf ~/devops-llm-env
+
+Проверь версию
+python --version
+
+4) Установи нужные пакеты заново
+pip install --upgrade pip
+pip install torch torchvision torchaudio transformers datasets accelerate gradio
+
+Обновлённая версия под macOS (M1/M2)
+
+Создай файл train_full_mac.py рядом с твоим датасетом и вставь этот код:
+в нашем случае создаем в деректории updateModel10000 файл train_full_mac.py
+
+(devops-llm-env) mac@macs-MacBook-Pro updateModel10000 % pwd
+/Users/mac/IdeaProjects/mygithubproject/ChatGPT_myModel/updateModel10000Как запустить
+
+Открой терминал в папке с файлами (train_full_mac.py и devops_dataset_10000.jsonl) и выполни:
+pip install torch torchvision torchaudio transformers datasets accelerate
+python3 train_full_mac.py
+
+Что делает этот скрипт
+
+Этап
+Описание
+1. Tokenizer + Model
+Загружает gpt2 и создаёт токенизатор (с pad_token)
+2. Dataset
+Загружает твой devops_dataset_10000.jsonl
+3. Preprocess
+Формирует структуру: `<
+4. Tokenization
+Преобразует тексты в числовые токены
+5. TrainingArguments
+Определяет параметры обучения (эпохи, батчи, логи)
+6. Trainer
+Автоматически управляет обучением
+7. Save
+Сохраняет модель и токенизатор в ./final_model
+
+
+После обучения
+
+Твоя новая модель будет лежать в ./final_model.
+Далее ты сможешь:
+	1.	Проверить результат:
+
+
+
+
+
+
+
+
+
+
+

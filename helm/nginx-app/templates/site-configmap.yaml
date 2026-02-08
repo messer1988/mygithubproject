@@ -1,0 +1,321 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "nginx-app.fullname" . }}-site
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="ru">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>DevOps Helper</title>
+      <style>
+        body{
+          font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+          background:#0f172a; color:#e5e7eb; margin:0;
+        }
+        header{
+          background:#020617; padding:22px 16px; text-align:center;
+          border-bottom:1px solid rgba(148,163,184,0.15);
+        }
+        header h1{margin:0; font-size:28px;}
+        header p{margin:8px 0 0; opacity:.8}
+        main{padding:26px 16px 40px; max-width:1100px; margin:auto;}
+        .topbar{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; flex-wrap:wrap;}
+        .hint{opacity:.75; font-size:14px}
+        button{
+          background:#1f2937; color:#e5e7eb; border:1px solid rgba(148,163,184,0.25);
+          border-radius:10px; padding:10px 12px; cursor:pointer;
+        }
+        button:hover{background:#111827}
+        .grid{
+          display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px;
+        }
+        .card{
+          background:#020617; padding:16px; border-radius:14px;
+          border:1px solid rgba(148,163,184,0.15);
+        }
+        .card h3{margin:0 0 10px}
+        .card p{margin:8px 0; opacity:.92}
+        .badge{
+          font-weight:800; padding:6px 10px; border-radius:999px;
+          border:1px solid rgba(148,163,184,0.25); min-width:72px; text-align:center;
+        }
+        .ok{color:#22c55e; border-color:rgba(34,197,94,.35); background:rgba(34,197,94,.10)}
+        .bad{color:#ef4444; border-color:rgba(239,68,68,.35); background:rgba(239,68,68,.10)}
+        .wait{color:#eab308; border-color:rgba(234,179,8,.35); background:rgba(234,179,8,.10)}
+        .row{display:flex; align-items:center; justify-content:space-between; gap:10px}
+        code{
+          background:rgba(148,163,184,0.12); padding:2px 6px; border-radius:8px;
+          font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+          font-size:12.5px;
+        }
+        pre{
+          margin:10px 0 0; padding:10px 12px; border-radius:12px;
+          background:rgba(148,163,184,0.08); border:1px solid rgba(148,163,184,0.15);
+          overflow:auto;
+          font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+          font-size:12.5px;
+          line-height:1.4;
+          white-space:pre;
+        }
+        .cmd{position:relative}
+        .copy{
+          position:absolute; top:10px; right:10px;
+          font-size:12px; padding:6px 9px; border-radius:10px;
+          background:#111827;
+        }
+        .copy:active{transform:translateY(1px)}
+        .sectionTitle{
+          margin:18px 0 10px; opacity:.85; font-size:13px; text-transform:uppercase; letter-spacing:.08em;
+        }
+        footer{
+          text-align:center; padding:18px 16px; opacity:.65;
+          border-top:1px solid rgba(148,163,184,0.15); background:#020617;
+        }
+        .mini{font-size:12.5px; opacity:.8}
+      </style>
+    </head>
+    <body>
+      <header>
+        <h1>🚀 DevOps Helper</h1>
+        <p>Kubernetes • Helm • Istio • CI/CD • Cheatsheet</p>
+      </header>
+
+      <main>
+        <div class="topbar">
+          <div class="hint">Health from <code>/health/*</code>. Команды ниже — копируй и запускай в терминале.</div>
+          <button onclick="refreshAll()">Refresh health</button>
+        </div>
+
+        <div class="grid">
+          <div class="card">
+            <h3>✅ Health checks</h3>
+            <div class="row"><span><code>/health/live</code></span><span id="live" class="badge wait">…</span></div>
+            <div class="row" style="margin-top:10px;"><span><code>/health/ready</code></span><span id="ready" class="badge wait">…</span></div>
+            <div class="row" style="margin-top:10px;"><span><code>/health/startup</code></span><span id="startup" class="badge wait">…</span></div>
+            <p class="mini" id="last">Last check: -</p>
+          </div>
+
+          <div class="card">
+            <h3>🔎 Quick status</h3>
+            <p class="mini">Самое полезное “сразу понять что живо”:</p>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c1')">Copy</button>
+              <pre id="c1">kubectl get nodes -o wide</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c2')">Copy</button>
+              <pre id="c2">kubectl get pods -A -o wide</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c3')">Copy</button>
+              <pre id="c3">kubectl -n default get deploy,po,svc,ep -o wide</pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🧭 Minikube / Cluster bring-up</h3>
+            <p class="mini">Поднять/проверить кластер:</p>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c4')">Copy</button>
+              <pre id="c4">minikube start --driver=docker</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c5')">Copy</button>
+              <pre id="c5">minikube status && kubectl cluster-info</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c6')">Copy</button>
+              <pre id="c6">kubectl get events -A --sort-by=.metadata.creationTimestamp | tail -n 30</pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>📦 Deploy app (Helm)</h3>
+            <p class="mini">Проверить chart, установить/обновить, откатить:</p>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c7')">Copy</button>
+              <pre id="c7">helm lint helm/nginx-app</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c8')">Copy</button>
+              <pre id="c8">helm template nginx-app helm/nginx-app -n default | kubectl apply -f -</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c9')">Copy</button>
+              <pre id="c9">helm upgrade --install nginx-app helm/nginx-app -n default --create-namespace</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c10')">Copy</button>
+              <pre id="c10">helm rollback nginx-app 1 -n default</pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🧩 Istio / Sidecar / Debug</h3>
+            <p class="mini">Проверки, которые реально экономят время:</p>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c11')">Copy</button>
+              <pre id="c11">kubectl get ns default -o jsonpath='{.metadata.labels}{"\n"}'</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c12')">Copy</button>
+              <pre id="c12">kubectl -n istio-system get pods -o wide</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c13')">Copy</button>
+              <pre id="c13">kubectl -n default get pod -l app.kubernetes.io/name=nginx-app -o jsonpath='{range .items[*]}{.metadata.name}{"  init:"}{.spec.initContainers[*].name}{"  containers:"}{.spec.containers[*].name}{"\n"}{end}'</pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🔐 TLS + Gateway checks</h3>
+            <p class="mini">Если HTTPS ведёт себя странно:</p>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c14')">Copy</button>
+              <pre id="c14">kubectl -n istio-system get secret nginx-tls -o yaml | head -n 40</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c15')">Copy</button>
+              <pre id="c15">kubectl -n istio-system get gateway,virtualservice -A</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c16')">Copy</button>
+              <pre id="c16">curl -vk --resolve nginx.local:8443:127.0.0.1 https://nginx.local:8443/health/ready</pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🧪 Inside cluster curl</h3>
+            <p class="mini">Проверка сервиса “изнутри” кластера:</p>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c17')">Copy</button>
+              <pre id="c17">kubectl -n default run curltest --rm -it --image=curlimages/curl --restart=Never -- sh -c 'curl -sS -D- http://nginx-app/ -o /dev/null; echo; curl -sS http://nginx-app/health/ready'</pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🧾 Config validation</h3>
+            <p class="mini">Проверить nginx конфиг и то, что реально применилось:</p>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c18')">Copy</button>
+              <pre id="c18">kubectl -n default exec -it deploy/nginx-app -- nginx -T | sed -n '1,200p'</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c19')">Copy</button>
+              <pre id="c19">kubectl -n default exec -it deploy/nginx-app -- sh -c 'nginx -t && echo OK'</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c20')">Copy</button>
+              <pre id="c20">kubectl -n default get cm nginx-app-template -o yaml</pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>🧹 Debug CrashLoopBackOff</h3>
+            <p class="mini">Когда поды падают — вот минимальный набор:</p>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c21')">Copy</button>
+              <pre id="c21">kubectl -n default describe pod -l app.kubernetes.io/name=nginx-app | sed -n '/Events:/,$p'</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c22')">Copy</button>
+              <pre id="c22">kubectl -n default logs -l app.kubernetes.io/name=nginx-app -c nginx-app --tail=200</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c23')">Copy</button>
+              <pre id="c23">kubectl -n default logs -l app.kubernetes.io/name=nginx-app -c nginx-app --previous --tail=200</pre>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>📏 Проверка YAML (пробелы/отступы)</h3>
+            <p class="mini">Лучший вариант на твоём Mac (локально):</p>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c24')">Copy</button>
+              <pre id="c24">brew install yamllint</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c25')">Copy</button>
+              <pre id="c25">yamllint -d "{extends: default, rules: {line-length: disable}}" helm/nginx-app/templates/*.yaml</pre>
+            </div>
+
+            <div class="cmd">
+              <button class="copy" onclick="copyCmd('c26')">Copy</button>
+              <pre id="c26">helm lint helm/nginx-app && helm template nginx-app helm/nginx-app -n default >/tmp/rendered.yaml</pre>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        Made by Python • DevOps Playground
+      </footer>
+
+      <script>
+        function setBadge(id, state, text){
+          const el=document.getElementById(id);
+          el.classList.remove("ok","bad","wait");
+          el.classList.add(state);
+          el.textContent=text;
+        }
+        async function check(path,id){
+          setBadge(id,"wait","…");
+          try{
+            const res=await fetch(path,{cache:"no-store"});
+            if(res.ok) setBadge(id,"ok","OK");
+            else setBadge(id,"bad","FAIL");
+          }catch(e){
+            setBadge(id,"bad","ERR");
+          }
+        }
+        function refreshAll(){
+          check("/health/live","live");
+          check("/health/ready","ready");
+          check("/health/startup","startup");
+          document.getElementById("last").textContent="Last check: "+new Date().toLocaleString();
+        }
+        async function copyCmd(id){
+          const txt=document.getElementById(id).textContent;
+          try{
+            await navigator.clipboard.writeText(txt);
+          }catch(e){
+            // fallback
+            const ta=document.createElement("textarea");
+            ta.value=txt; document.body.appendChild(ta);
+            ta.select(); document.execCommand("copy");
+            document.body.removeChild(ta);
+          }
+        }
+        refreshAll();
+        setInterval(refreshAll, 5000);
+      </script>
+    </body>
+    </html>

@@ -1,0 +1,264 @@
+minikube start --driver=docker  обязательно должен быть запущен с --driver=docker
+kubectl get nodes ( Проверка работоспособности control-plane
+Проверка работаты Ingress
+
+minikube addons enable ingress
+kubectl -n ingress-nginx get pods
+
+
+minikube status
+
+Успешный ответ!
+minikube
+type: Control Plane
+host: Running
+kubelet: Running
+apiserver: Running
+kubeconfig: Configured
+
+
+kubectl cluster-info
+Успешный ответ!
+
+Kubernetes control plane is running at https://127.0.0.1:53549
+CoreDNS is running at https://127.0.0.1:53549/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+kubectl get pods -A
+
+mac@macs-MacBook-Pro mygithubproject % kubectl get pods -A
+NAMESPACE              NAME                                         READY   STATUS      RESTARTS       AGE
+default                nginx-app-6c64c46fcf-6vsnz                   1/1     Running     0              12m
+default                nginx-app-6c64c46fcf-zpbck                   1/1     Running     0              12m
+ingress-nginx          ingress-nginx-admission-create-w9szj         0/1     Completed   0              83m
+ingress-nginx          ingress-nginx-admission-patch-gs66v          0/1     Completed   0              83m
+ingress-nginx          ingress-nginx-controller-9cc49f96f-9rhx4     1/1     Running     0              83m
+kube-system            coredns-66bc5c9577-tvzg6                     1/1     Running     0              104m
+kube-system            etcd-minikube                                1/1     Running     0              104m
+kube-system            kube-apiserver-minikube                      1/1     Running     0              104m
+kube-system            kube-controller-manager-minikube             1/1     Running     0              104m
+kube-system            kube-proxy-2vfz7                             1/1     Running     0              104m
+kube-system            kube-scheduler-minikube                      1/1     Running     0              104m
+kube-system            storage-provisioner                          1/1     Running     1 (103m ago)   104m
+kubernetes-dashboard   dashboard-metrics-scraper-77bf4d6c4c-fqvhb   1/1     Running     0              85m
+kubernetes-dashboard   kubernetes-dashboard-855c9754f9-rstm4        1/1     Running     0              85m
+
+
+helm version
+version.BuildInfo{Version:"v3.19.0", GitCommit:"3d8990f0836691f0229297773f3524598f46bda6", GitTreeState:"clean", GoVersion:"go1.25.1"}
+kubectl get ns
+
+NAME                   STATUS   AGE
+default                Active   34m
+ingress-nginx          Active   12m
+kube-node-lease        Active   34m
+kube-public            Active   34m
+kube-system            Active   34m
+kubernetes-dashboard   Active   15m
+
+проверить конфиг шаблона
+helm template ./helm.nginx-app
+
+Установка Чарта
+helm install nginx-app .
+kubectl get pods,svc,ingress
+
+
+Python, отлично — кластер живой, kube-system в норме, ingress-nginx тоже работает.
+Проблема только одна:
+
+❌ Все твои приложения в STATUS: ImagePullBackOff
+
+А это означает только одно:
+
+▶️ Kubernetes НЕ МОЖЕТ СКАЧАТЬ ОБРАЗ
+
+python1988/nginx-app:<tag>
+ни в одном деплойменте.
+
+⸻
+
+💥 Почему так происходит?
+
+Причины бывают только 3:
+
+1️⃣ Docker Hub rate limit / блокировка
+2️⃣ Нет manifest для твоего тега
+3️⃣ В values.yaml сохраняется старое значение image.tag
+
+И я уже вижу корень:
+Твои поды тянут не те теги, которые собрал Jenkins.
+
+Например, ты сейчас отправил:
+python1988/nginx-app:51
+
+А в кластере у тебя частично висят:
+nginx-app:865c85f87f
+helm.nginx-app:7bd47c68fc
+
+
+mac@macs-MacBook-Pro nginx-app % kubectl get pods -A
+NAMESPACE              NAME                                         READY   STATUS             RESTARTS      AGE
+default                helm.nginx-app-7bd47c68fc-dxtws              0/1     ImagePullBackOff   0             19m
+default                helm.nginx-app-7bd47c68fc-s9bp6              0/1     ImagePullBackOff   0             19m
+default                nginx-app-865c85f87f-jl2l7                   0/1     ImagePullBackOff   0             18m
+default                nginx-app-865c85f87f-rh89j                   0/1     ImagePullBackOff   0             18m
+ingress-nginx          ingress-nginx-admission-create-w9szj         0/1     Completed          0             12m
+ingress-nginx          ingress-nginx-admission-patch-gs66v          0/1     Completed          0             12m
+ingress-nginx          ingress-nginx-controller-9cc49f96f-9rhx4     1/1     Running            0             12m
+kube-system            coredns-66bc5c9577-tvzg6                     1/1     Running            0             33m
+kube-system            etcd-minikube                                1/1     Running            0             33m
+kube-system            kube-apiserver-minikube                      1/1     Running            0             33m
+kube-system            kube-controller-manager-minikube             1/1     Running            0             33m
+kube-system            kube-proxy-2vfz7                             1/1     Running            0             33m
+kube-system            kube-scheduler-minikube                      1/1     Running            0             33m
+kube-system            storage-provisioner                          1/1     Running            1 (32m ago)   33m
+kubernetes-dashboard   dashboard-metrics-scraper-77bf4d6c4c-fqvhb   1/1     Running            0             14m
+kubernetes-dashboard   kubernetes-dashboard-855c9754f9-rstm4        1/1     Running            0             14m
+
+📌 ШАГ 1 — Проверяем, какие образы реально есть в Docker Hub
+docker pull python1988/nginx-app:latest
+docker pull python1988/nginx-app:37
+docker pull python1988/nginx-app:51
+
+
+📌 ШАГ 2 — Проверяем, какие образы пытается качать кластер
+kubectl describe pod nginx-app-6c64c46fcf-6vsnz -n default | grep Image:
+
+Вывод:
+Image:         python1988/nginx-app:58
+
+
+📌 ШАГ 3 — Проверим values.yaml в кластере
+
+helm get values nginx-app -n default
+Вывод:
+USER-SUPPLIED VALUES:
+fullnameOverride: nginx-app
+image:
+  repository: python1988/nginx-app
+  tag: 58
+
+📌 ШАГ 4 — Проверим корректность kubeconfig, который использует Helm в Jenkins
+export KUBECONFIG=/Users/mac/.jenkins/workspace/helm/kubeconfig
+kubectl get pods -A
+
+
+🔥 Команда №1: удалить старый Deployment
+kubectl delete pod helm.nginx-app-7bd47c68fc-dxtws -n default
+kubectl delete pod helm.nginx-app-7bd47c68fc-s9bp6 -n default
+
+Если мы выполняли какие либо изменения в helm то обязательно
+2️⃣ Теперь запускаем Helm upgrade правильно:
+helm upgrade --install nginx-app helm/nginx-app -n default
+
+
+Проверить namespace
+kubectl get ns
+Как узнать namespace текущего контекста
+kubectl config get-contexts
+
+Проверить содержимое namespace
+kubectl get all -n default
+
+Что такое default namespace
+default — это namespace по умолчанию.
+Если ты НЕ указал namespace, Kubernetes использует default.
+
+
+
+
+Зачем нужны namespace (практика)
+Задача Пример
+Разделение окружений dev, stage, prod
+Разделение команд    team-a, team-b
+Сервисы              monitoring, logging, istio-system
+Безопасность         разные права доступа
+Лимиты                  ограничение CPU / RAM
+
+Стандартные namespace (важно знать)
+Namespace              Для чего
+default                обычные workload’ы
+kube-system            системные компоненты k8s
+kube-public            публичные данные
+kube-node-lease        heartbeat нод
+istio-system           Istio (если есть)
+monitoring             Prometheus, Grafana
+
+
+
+Какие данные хранятся в namespace
+Namespace НЕ хранит данные, он группирует ресурсы, которые внутри него.
+В namespace могут быть:
+	•	Pods
+	•	Deployments
+	•	Services
+	•	ConfigMaps
+	•	Secrets
+	•	Ingress
+	•	Jobs / CronJobs
+	•	Roles / RoleBindings
+
+
+
+1) Быстро понять, кто уже поставил Istio (диагностика)
+helm list -A | grep -i istio
+
+kubectl get crd wasmplugins.extensions.istio.io -o jsonpath='{.metadata.labels}{"\n"}{.metadata.annotations}{"\n"}'
+
+kubectl get pods -n istio-system
+
+2) УДАЛЕНИЕ И ПЕРЕУСТАНОВКА ISTIO
+
+Быстрая проверка: есть ли sidecar-injection и istio ресурсы
+kubectl get ns --show-labels | grep istio-injection
+kubectl get mutatingwebhookconfigurations | grep -i istio || true
+kubectl get validatingwebhookconfigurations | grep -i istio || true
+
+Удаляем Helm-релизы Istio (в правильном порядке)
+1.1 Удалить istiod
+helm uninstall istiod -n istio-system
+
+1.2 Удалить istio-base
+helm uninstall istio-base -n istio-system
+
+Проверка
+helm list -n istio-system
+kubectl get pods -n istio-system
+
+2) Удаляем namespace istio-system
+kubectl delete ns istio-system
+
+Проверка:
+kubectl get ns | grep istio-system || echo "istio-system removed"
+
+3) Чистим CRD Istio (самое важное)
+Istio CRD — cluster-wide, они часто остаются (и как раз из-за них у тебя была ошибка).
+
+Список CRD Istio:
+kubectl get crd | grep -i istio
+
+Удаляем все CRD Istio одной командой:
+kubectl get crd | grep -E 'istio\.io|istio' | awk '{print $1}' > /tmp/istio_crds.txt
+cat /tmp/istio_crds.txt
+xargs -r kubectl delete crd < /tmp/istio_crds.txt
+
+Проверка
+kubectl get crd | grep -i istio || echo "No istio CRDs"
+
+4) Удаляем webhooks Istio (если остались)
+kubectl get mutatingwebhookconfigurations | grep -i istio | awk '{print $1}' | xargs -r kubectl delete mutatingwebhookconfiguration
+kubectl get validatingwebhookconfigurations | grep -i istio | awk '{print $1}' | xargs -r kubectl delete validatingwebhookconfiguration
+
+5) Удаляем ClusterRoles / ClusterRoleBindings Istio (по желанию, но лучше почистить)
+kubectl get clusterrole | grep -i istio | awk '{print $1}' | xargs -r kubectl delete clusterrole
+kubectl get clusterrolebinding | grep -i istio | awk '{print $1}' | xargs -r kubectl delete clusterrolebinding
+
+6) Финальная проверка “чисто ли”
+kubectl get ns | grep -i istio || echo "No istio namespaces"
+kubectl get crd | grep -i istio || echo "No istio CRDs"
+kubectl get mutatingwebhookconfigurations | grep -i istio || echo "No istio mutating webhooks"
+kubectl get validatingwebhookconfigurations | grep -i istio || echo "No istio validating webhooks"
+
+
+
+

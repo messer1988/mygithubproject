@@ -2,5 +2,6 @@
 1.1 (Старт кластера)
 minikube start
 minikube stop
+minikube status
 minikube start --driver=docker
 kubectl get nodes ( Проверка работоспособности control-plane
