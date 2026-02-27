@@ -1,0 +1,24 @@
+image:
+  repository: mlflow-psycopg2
+  tag: v2.14.1
+  pullPolicy: IfNotPresent
+
+service:
+  port: 5000
+
+persistence:
+  enabled: true
+  size: 5Gi
+  existingClaim: ""  # если хочешь использовать уже созданный PVC — укажи имя
+
+mlflow:
+  backendStoreUri: "postgresql://mlflow:mlflowpass@mlflow-postgres-postgresql.mlops.svc.cluster.local:5432/mlflow"
+  artifactRoot: "/mlflow/artifacts"
+
+istio:
+  enabled: false
+  virtualService:
+    hosts: []
+    gateways: []
+    http:
+      prefix: /
