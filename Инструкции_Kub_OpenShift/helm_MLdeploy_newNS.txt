@@ -1,0 +1,143 @@
+1) Namespace + Istio injection
+Создаем новый NS
+kubectl create ns mlops
+
+# чтобы sidecar istio встраивался автоматически
+kubectl label ns mlops istio-injection=enabled --overwrite
+
+Проверка
+kubectl get ns mlops --show-labels
+
+2) Поднимаем Postgres для MLflow (быстро и надёжно)
+Самый быстрый путь — Helm chart Bitnami.
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm repo update
+
+Ставим Postgres:
+helm install mlflow-postgres bitnami/postgresql \
+  -n mlops \
+  --set auth.username=mlflow \
+  --set auth.password=mlflowpass \
+  --set auth.database=mlflow \
+  --set primary.persistence.size=5Gi
+
+Забираем пароль (если надо проверить):
+kubectl get secret -n mlops mlflow-postgres-postgresql -o jsonpath="{.data.password}" | base64 -d; echo
+
+
+
+3) Поднимаем MLflow server (backend-store: Postgres, artifacts: PVC)
+Сделаем это без “магических” чартов — через Deployment/Service. Это прозрачно и на интервью выглядит лучше.
+3.1 PVC для артефактов
+cat <<'YAML' | kubectl apply -n mlops -f -
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mlflow-artifacts-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+YAML
+
+3.2 Deployment + Service MLflow
+cat <<'YAML' | kubectl apply -n mlops -f -
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow
+  template:
+    metadata:
+      labels:
+        app: mlflow
+    spec:
+      containers:
+        - name: mlflow
+          image: ghcr.io/mlflow/mlflow:v2.14.1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MLFLOW_BACKEND_STORE_URI
+              value: postgresql://mlflow:mlflowpass@mlflow-postgres-postgresql.mlops.svc.cluster.local:5432/mlflow
+            - name: MLFLOW_ARTIFACT_ROOT
+              value: /mlflow/artifacts
+          args:
+            - mlflow
+            - server
+            - --host=0.0.0.0
+            - --port=5000
+            - --backend-store-uri=$(MLFLOW_BACKEND_STORE_URI)
+            - --default-artifact-root=$(MLFLOW_ARTIFACT_ROOT)
+          volumeMounts:
+            - name: artifacts
+              mountPath: /mlflow/artifacts
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 5000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      volumes:
+        - name: artifacts
+          persistentVolumeClaim:
+            claimName: mlflow-artifacts-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflow
+spec:
+  selector:
+    app: mlflow
+  ports:
+    - name: http
+      port: 5000
+      targetPort: 5000
+YAML
+
+Проверка
+kubectl get pods -n mlops
+kubectl logs -n mlops deploy/mlflow --tail=50
+
+Собираем кастомный MLflow с psycopg2 внутри Minikube
+2.1 Подключаем docker к Minikube
+eval $(minikube docker-env)
+docker info | head
+
+2.2 Создаём Dockerfile
+В папке проекта создай файл Dockerfile.mlflow:
+
+FROM ghcr.io/mlflow/mlflow:v2.14.1
+RUN pip install --no-cache-dir psycopg2-binary
+
+2.3 Собираем image (внутри minikube docker)
+docker build -t mlflow-psycopg2:v2.14.1 -f Dockerfile.mlflow .
+docker images | grep mlflow-psycopg2
+
+Переключаем Deployment на локальный образ и запрещаем pull
+kubectl -n mlops set image deploy/mlflow mlflow=mlflow-psycopg2:v2.14.1
+kubectl -n mlops patch deploy/mlflow -p '{"spec":{"template":{"spec":{"containers":[{"name":"mlflow","imagePullPolicy":"IfNotPresent"}]}}}}'
+kubectl -n mlops rollout restart deploy/mlflow
+kubectl -n mlops rollout status deploy/mlflow
+
+Чистим старые Pods (чтобы не висели ImagePullBackOff)
+kubectl -n mlops delete pod -l app=mlflow
+kubectl -n mlops get pods -w
+
+. Проверяем логи
+kubectl -n mlops logs deploy/mlflow -c mlflow --tail=80

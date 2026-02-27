@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mlflow.fullname" . }}
+  labels:
+    {{- include "mlflow.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "mlflow.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "mlflow.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: mlflow
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+          env:
+            - name: MLFLOW_BACKEND_STORE_URI
+              value: {{ .Values.mlflow.backendStoreUri | quote }}
+            - name: MLFLOW_ARTIFACT_ROOT
+              value: {{ .Values.mlflow.artifactRoot | quote }}
+          args:
+            - mlflow
+            - server
+            - --host=0.0.0.0
+            - --port={{ .Values.service.port }}
+            - --backend-store-uri=$(MLFLOW_BACKEND_STORE_URI)
+            - --default-artifact-root=$(MLFLOW_ARTIFACT_ROOT)
+          volumeMounts:
+            - name: artifacts
+              mountPath: {{ .Values.mlflow.artifactRoot }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      volumes:
+        - name: artifacts
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (printf "%s-artifacts" (include "mlflow.fullname" .)) }}

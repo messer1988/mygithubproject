@@ -1,0 +1,26 @@
+{{- $istio := .Values.istio | default dict -}}
+  {{- if ($istio.enabled | default false) -}}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "mlflow.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  hosts:
+  {{- range ($istio.virtualService.hosts | default list) }}
+- {{ . | quote }}
+  {{- end }}
+gateways:
+  {{- range ($istio.virtualService.gateways | default list) }}
+- {{ . | quote }}
+  {{- end }}
+http:
+  - match:
+      - uri:
+          prefix: {{ (($istio.virtualService.http | default dict).prefix | default "/") | quote }}
+    route:
+      - destination:
+          host: {{ include "mlflow.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+          port:
+            number: {{ .Values.service.port }}
+  {{- end -}}
