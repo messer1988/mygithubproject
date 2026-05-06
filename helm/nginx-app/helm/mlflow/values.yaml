@@ -18,7 +18,9 @@ mlflow:
 istio:
   enabled: false
   virtualService:
-    hosts: []
-    gateways: []
+    hosts:
+      - mlflow.local
+    gateways:
+      - istio-system/nginx-app
     http:
       prefix: /
